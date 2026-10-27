@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>G Spot Automotive — Choose your portal</title>
+    <link rel="stylesheet" href="./shared/styles/styles.css">
+    <link rel="stylesheet" href="./shared/styles/app.css">
+  </head>
+  <body>
+    <div class="gs-portal-page">
+      <header class="gs-portal-top">
+        <a class="gs-portal-brand" href="./index.html" aria-label="G Spot portal selection">
+          <span class="gs-brand-mark">G</span>
+          <span>
+            <strong>G SPOT</strong>
+            <small>AUTOMOTIVE CENTER</small>
+          </span>
+        </a>
+        <span class="gs-portal-top__tag">MULTI-ROLE PORTAL · OFFLINE DEMO</span>
+      </header>
+
+      <main class="gs-portal-main">
+        <div class="gs-portal-panel">
+          <p class="gs-eyebrow">WELCOME</p>
+          <h1 class="gs-portal-title">Choose your portal.</h1>
+          <p class="gs-portal-sub">
+            Shop parts and book services as a customer, or sign in with a Manager or Admin
+            account to run the shop. Each portal is a separate interface.
+          </p>
+
+          <div class="gs-portal-grid">
+            <article class="gs-portal-card">
+              <span class="gs-portal-card__eyebrow">CUSTOMER PORTAL</span>
+              <h2>Browse, book, and track.</h2>
+              <p>
+                The public storefront and kiosk: parts catalog, service booking, cart,
+                checkout, and your purchase history.
+              </p>
+              <ul>
+                <li>Parts catalog with live stock and pricing</li>
+                <li>Service booking with vehicle details</li>
+                <li>Customer account, addresses, and order tickets</li>
+              </ul>
+              <div class="gs-portal-actions">
+                <a class="gs-btn gs-btn--primary" href="./customer-ui/public/index.html">Enter Customer Portal →</a>
+              </div>
+            </article>
+
+            <article class="gs-portal-card gs-portal-card--staff">
+              <span class="gs-portal-card__eyebrow">STAFF / MANAGEMENT PORTAL</span>
+              <h2>Run the shop.</h2>
+              <p>
+                Restricted access for shop staff. Manager accounts handle the queue and
+                inventory; Admin accounts control staff, catalog, and system settings.
+              </p>
+              <ul>
+                <li>Manager: ticket queue, quotes, inventory, reports</li>
+                <li>Admin: user roles, master catalog, audit logs, settings</li>
+                <li>Role-gated screens — customer accounts cannot enter</li>
+              </ul>
+              <div class="gs-portal-actions">
+                <a class="gs-btn gs-btn--dark" href="./manager-ui/public/index.html">Manager Login →</a>
+                <a class="gs-btn" href="./admin-ui/public/index.html">Admin Login →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+
+      <footer class="gs-portal-foot">
+        Offline demo · Accounts and data stay in this browser · No real payments
+      </footer>
+    </div>
+  </body>
+</html>

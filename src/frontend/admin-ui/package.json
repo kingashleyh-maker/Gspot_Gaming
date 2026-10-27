@@ -1,0 +1,10 @@
+{
+  "name": "gspot-admin-ui",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../../tools/serve.mjs",
+    "start": "node ../../../tools/serve.mjs"
+  }
+}
