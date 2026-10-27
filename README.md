@@ -1,3 +1,6 @@
+# Gspot_Gaming
+Gspot 2.3
+
 # G Spot Automotive Kiosk
 
 ## Open the project
