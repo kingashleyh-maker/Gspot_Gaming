@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="../../shared/styles/styles.css">
     <link rel="stylesheet" href="../../shared/styles/app.css">
     <link rel="stylesheet" href="../src/css/profile.css">
-    <script>
-      window.GSPOT_API_BASE = window.GSPOT_API_BASE || "http://localhost:5084/api";
-    </script>
     <script src="../src/js/backend-config.js" defer></script>
     <script src="../src/js/backend.js" defer></script>
     <script src="../src/js/profile.js" defer></script>
@@ -17,7 +14,7 @@
     <script src="../src/js/ui.js" defer></script>
   </head>
   <body>
-    <!-- React renders the kiosk screens inside this container. -->
+    <!-- React renders the storefront screens inside this container. -->
     <div id="root"></div>
 
     <!-- Local demo information; this does not process real payments. -->
@@ -25,7 +22,5 @@
       Offline demo · Accounts/orders stay in this browser · No real payments
       <button type="button" data-dismiss-notice aria-label="Dismiss demo notice">×</button>
     </div>
-
-    <a class="gs-portal-chip" href="../../index.html">Portal switch →</a>
   </body>
 </html>
