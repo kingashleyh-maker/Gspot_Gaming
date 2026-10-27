@@ -4387,3 +4387,26 @@ textarea {
     }
   }
 }
+
+/* Login modal mode switch: fades/slides the card when moving between
+   customer login, manager access, sign up and recovery. */
+@keyframes gs-auth-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.gs-auth-panel {
+  animation: gs-auth-panel-in 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-auth-panel {
+    animation: none;
+  }
+}

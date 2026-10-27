@@ -12387,172 +12387,172 @@ Error generating stack: ` + c.message + `
     });
   var Nj, xj = z(() => {
     Nj = {
-      src: "assets/images/image-01.jpg"
+      src: "../../shared/assets/images/image-01.jpg"
     }
   });
   var oj, sj = z(() => {
     oj = {
-      src: "assets/images/image-02.jpg"
+      src: "../../shared/assets/images/image-02.jpg"
     }
   });
   var Uj, yj = z(() => {
     Uj = {
-      src: "assets/images/image-03.jpg"
+      src: "../../shared/assets/images/image-03.jpg"
     }
   });
   var Pj, kj = z(() => {
     Pj = {
-      src: "assets/images/image-04.jpg"
+      src: "../../shared/assets/images/image-04.jpg"
     }
   });
   var Wj, Tj = z(() => {
     Wj = {
-      src: "assets/images/image-05.jpg"
+      src: "../../shared/assets/images/image-05.jpg"
     }
   });
   var mj, fj = z(() => {
     mj = {
-      src: "assets/images/image-06.jpg"
+      src: "../../shared/assets/images/image-06.jpg"
     }
   });
   var zj, Kj = z(() => {
     zj = {
-      src: "assets/images/image-07.jpg"
+      src: "../../shared/assets/images/image-07.jpg"
     }
   });
   var Gj, Xj = z(() => {
     Gj = {
-      src: "assets/images/image-08.jpg"
+      src: "../../shared/assets/images/image-08.jpg"
     }
   });
   var Lj, Zj = z(() => {
     Lj = {
-      src: "assets/images/image-09.jpg"
+      src: "../../shared/assets/images/image-09.jpg"
     }
   });
   var Dj, wj = z(() => {
     Dj = {
-      src: "assets/images/image-10.jpg"
+      src: "../../shared/assets/images/image-10.jpg"
     }
   });
   var gj, Jj = z(() => {
     gj = {
-      src: "assets/images/image-11.jpg"
+      src: "../../shared/assets/images/image-11.jpg"
     }
   });
   var Qj, Bj = z(() => {
     Qj = {
-      src: "assets/images/image-12.jpg"
+      src: "../../shared/assets/images/image-12.jpg"
     }
   });
   var hj, vj = z(() => {
     hj = {
-      src: "assets/images/image-13.jpg"
+      src: "../../shared/assets/images/image-13.jpg"
     }
   });
   var Cj, Mj = z(() => {
     Cj = {
-      src: "assets/images/image-14.jpg"
+      src: "../../shared/assets/images/image-14.jpg"
     }
   });
   var Fj, Yj = z(() => {
     Fj = {
-      src: "assets/images/image-15.jpg"
+      src: "../../shared/assets/images/image-15.jpg"
     }
   });
   var _j, $j = z(() => {
     _j = {
-      src: "assets/images/image-16.jpg"
+      src: "../../shared/assets/images/image-16.jpg"
     }
   });
   var Ab, tb = z(() => {
     Ab = {
-      src: "assets/images/image-17.jpg"
+      src: "../../shared/assets/images/image-17.jpg"
     }
   });
   var ab, cb = z(() => {
     ab = {
-      src: "assets/images/image-18.jpg"
+      src: "../../shared/assets/images/image-18.jpg"
     }
   });
   var ub, eb = z(() => {
     ub = {
-      src: "assets/images/image-19.jpg"
+      src: "../../shared/assets/images/image-19.jpg"
     }
   });
   var lb, ib = z(() => {
     lb = {
-      src: "assets/images/image-20.jpg"
+      src: "../../shared/assets/images/image-20.jpg"
     }
   });
   var nb, Ib = z(() => {
     nb = {
-      src: "assets/images/image-21.jpg"
+      src: "../../shared/assets/images/image-21.jpg"
     }
   });
   var qb, pb = z(() => {
     qb = {
-      src: "assets/images/image-22.jpg"
+      src: "../../shared/assets/images/image-22.jpg"
     }
   });
   var Rb, rb = z(() => {
     Rb = {
-      src: "assets/images/image-23.jpg"
+      src: "../../shared/assets/images/image-23.jpg"
     }
   });
   var db, jb = z(() => {
     db = {
-      src: "assets/images/image-24.jpg"
+      src: "../../shared/assets/images/image-24.jpg"
     }
   });
   var bb, Ob = z(() => {
     bb = {
-      src: "assets/images/image-25.jpg"
+      src: "../../shared/assets/images/image-25.jpg"
     }
   });
   var Vb, Hb = z(() => {
     Vb = {
-      src: "assets/images/image-26.jpg"
+      src: "../../shared/assets/images/image-26.jpg"
     }
   });
   var Eb, Sb = z(() => {
     Eb = {
-      src: "assets/images/image-27.jpg"
+      src: "../../shared/assets/images/image-27.jpg"
     }
   });
   var Nb, xb = z(() => {
     Nb = {
-      src: "assets/images/image-28.jpg"
+      src: "../../shared/assets/images/image-28.jpg"
     }
   });
   var ob, sb = z(() => {
     ob = {
-      src: "assets/images/image-29.jpg"
+      src: "../../shared/assets/images/image-29.jpg"
     }
   });
   var Ub, yb = z(() => {
     Ub = {
-      src: "assets/images/image-30.jpg"
+      src: "../../shared/assets/images/image-30.jpg"
     }
   });
   var Pb, kb = z(() => {
     Pb = {
-      src: "assets/images/image-31.jpg"
+      src: "../../shared/assets/images/image-31.jpg"
     }
   });
   var Wb, Tb = z(() => {
     Wb = {
-      src: "assets/images/image-32.jpg"
+      src: "../../shared/assets/images/image-32.jpg"
     }
   });
   var mb, fb = z(() => {
     mb = {
-      src: "assets/images/image-33.jpg"
+      src: "../../shared/assets/images/image-33.jpg"
     }
   });
   var zb, Kb = z(() => {
     zb = {
-      src: "assets/images/image-34.jpg"
+      src: "../../shared/assets/images/image-34.jpg"
     }
   });
   var Nt, ha, NA, Gb, Xb, Lb, se = z(() => {
@@ -15833,7 +15833,7 @@ Error generating stack: ` + c.message + `
   });
   var Cb, Mb = z(() => {
     Cb = {
-      src: "assets/images/image-35.jpg"
+      src: "../../shared/assets/images/image-35.jpg"
     }
   });
 
@@ -17468,17 +17468,17 @@ Error generating stack: ` + c.message + `
   });
   var iO, nO = z(() => {
     iO = {
-      src: "assets/images/image-36.jpg"
+      src: "../../shared/assets/images/image-36.jpg"
     }
   });
   var IO, qO = z(() => {
     IO = {
-      src: "assets/images/image-37.jpg"
+      src: "../../shared/assets/images/image-37.jpg"
     }
   });
   var pO, RO = z(() => {
     pO = {
-      src: "assets/images/image-38.jpg"
+      src: "../../shared/assets/images/image-38.jpg"
     }
   });
 
@@ -18376,7 +18376,7 @@ Error generating stack: ` + c.message + `
                   children: "G SPOT"
                 }), (0, b.jsx)("p", {
                   className: "font-mono text-[#8a8a86] text-[8px] tracking-widest mt-1",
-                  children: "ACCOUNT ACCESS"
+                  children: a === "manager" ? "STAFF ACCESS" : "ACCOUNT ACCESS"
                 })]
               })]
             }), (0, b.jsx)("button", {
@@ -18386,20 +18386,22 @@ Error generating stack: ` + c.message + `
               children: "\xD7"
             })]
           }), (0, b.jsxs)("div", {
-            className: "bg-white border border-[#dfdfdc] shadow-lg p-5 sm:p-7",
+            key: a,
+            className: "gs-auth-panel bg-white border border-[#dfdfdc] shadow-lg p-5 sm:p-7",
             children: [(0, b.jsxs)("div", {
               className: "flex items-center justify-between gap-4 mb-6",
               children: [(0, b.jsxs)("div", {
                 children: [(0, b.jsx)("p", {
                   className: "font-sans text-2xl font-semibold text-[#171717]",
                   children: a === "login" ? "Log In" : a ===
-                    "create" ? "Sign Up" : "Forgot Password"
+                    "create" ? "Sign Up" : a === "manager" ? "Manager Access" : "Forgot Password"
                 }), (0, b.jsx)("p", {
                   className: "font-sans text-[#8a8a86] text-xs mt-1",
                   children: a === "login" ?
                     "Access your G Spot account" : a ===
                     "create" ?
-                    "Create your customer account" : "We\u2019ll help you recover access"
+                    "Create your customer account" : a === "manager" ?
+                    "Sign in to the manager dashboard" : "We\u2019ll help you recover access"
                 })]
               }), a === "login" && (0, b.jsx)("button", {
                 onClick: () => O(J => !J),
@@ -18572,7 +18574,121 @@ Error generating stack: ` + c.message + `
                   className: "text-[#cc0000] font-semibold",
                   children: "Sign Up"
                 })]
-              }), (0, b.jsx)(P0, {})]
+              }), (0, b.jsx)(P0, {}), (0, b.jsxs)("div", {
+                className: "border-t border-[#e2e2df] pt-4 mt-5",
+                children: (0, b.jsx)("button", {
+                  type: "button",
+                  onClick: () => {
+                    T("manager"), e("")
+                  },
+                  className: "w-full text-center font-sans text-xs font-semibold text-[#444440] hover:text-[#cc0000] transition-colors",
+                  children: "Manager & Staff Login \u2192"
+                })
+              })]
+            }) : a === "manager" ? (0, b.jsxs)("form", {
+              onSubmit: J => {
+                J.preventDefault(), o(), k(!0), window.setTimeout(() => {
+                  let nA = u.trim().toLowerCase(),
+                    wA = {
+                      "admin@gspot.com": {
+                        password: "admin0000",
+                        managerId: "sp6"
+                      },
+                      "sarah.chen@gspot.com": {
+                        password: "sarah2345",
+                        managerId: "sp2"
+                      },
+                      "ana.martinez@gspot.com": {
+                        password: "ana4567",
+                        managerId: "sp4"
+                      },
+                      admin: {
+                        password: "admin0000",
+                        managerId: "sp6"
+                      },
+                      "sarah.chen": {
+                        password: "sarah2345",
+                        managerId: "sp2"
+                      },
+                      "ana.martinez": {
+                        password: "ana4567",
+                        managerId: "sp4"
+                      }
+                    },
+                    ht = wA[nA];
+                  ht && ht.password === l ? A({
+                    view: "manager",
+                    managerId: ht.managerId
+                  }) : H(
+                    "Incorrect manager credentials. Check your work email or staff ID."
+                    ), k(!1)
+                }, 500)
+              },
+              className: "space-y-4",
+              children: [(0, b.jsxs)("div", {
+                className: "border border-[#e2e2df] bg-[#f7f7f5] px-4 py-3",
+                children: [(0, b.jsx)("p", {
+                  className: "font-mono text-[10px] font-black tracking-widest text-[#444440]",
+                  children: "MANAGER & STAFF ONLY"
+                }), (0, b.jsx)("p", {
+                  className: "font-sans text-[10px] text-[#8a8a86] mt-1 leading-relaxed",
+                  children: "Customer accounts cannot access the dashboard."
+                })]
+              }), (0, b.jsx)(ke, {
+                label: "WORK EMAIL / STAFF ID",
+                type: "text",
+                value: u,
+                onChange: J => {
+                  e(J), o()
+                },
+                placeholder: "name@gspot.com or staff ID",
+                autoComplete: "username"
+              }), (0, b.jsxs)("label", {
+                className: "block",
+                children: [(0, b.jsx)("span", {
+                  className: "font-sans text-[#666662] text-[10px] font-semibold tracking-widest block mb-2",
+                  children: "PASSWORD"
+                }), (0, b.jsxs)("div", {
+                  className: "flex border border-[#d8d8d5] focus-within:border-[#cc0000] transition-colors",
+                  children: [(0, b.jsx)("input", {
+                    type: R ? "text" : "password",
+                    value: l,
+                    onChange: J => {
+                      n(J.target.value), o()
+                    },
+                    placeholder: "Password",
+                    autoComplete: "current-password",
+                    className: "min-w-0 flex-1 bg-white text-[#171717] font-sans px-4 py-3.5 placeholder:text-[#b0b0ac] focus:outline-none"
+                  }), (0, b.jsx)("button", {
+                    type: "button",
+                    onClick: () => d(J => !J),
+                    className: "px-3 text-[#777773] hover:text-[#cc0000] font-sans text-[10px] transition-colors",
+                    children: R ? "HIDE" : "SHOW"
+                  })]
+                })]
+              }), j && (0, b.jsx)(We, {
+                type: "error",
+                text: j
+              }), (0, b.jsx)("button", {
+                type: "submit",
+                disabled: !u || !l || P,
+                className: "w-full py-3.5 bg-[#cc0000] text-white font-sans font-bold text-sm hover:bg-[#a90000] disabled:opacity-40 disabled:cursor-not-allowed transition-colors",
+                children: P ? "SIGNING IN\u2026" : "SIGN IN TO DASHBOARD"
+              }), (0, b.jsx)("p", {
+                className: "font-sans text-[#8a8a86] text-[10px] text-center leading-relaxed",
+                children: "Contact your manager if you cannot access your account."
+              }), (0, b.jsx)("button", {
+                type: "button",
+                onClick: () => {
+                  T("login"), e("")
+                },
+                className: "w-full font-sans text-[#777773] text-xs hover:text-[#cc0000] transition-colors",
+                children: "\u2190 Back to Customer Login"
+              }), (0, b.jsx)("a", {
+                href: "../../manager-ui/public/index.html",
+                className: "block w-full text-center font-sans font-semibold text-[10px] tracking-widest text-[#cc0000] hover:text-[#a00000] transition-colors",
+                children: "OPEN FULL STAFF PORTAL \u2192"
+              })]
             }) : a === "create" ? (0, b.jsxs)("form", {
               onSubmit: async J => {
                 if (J.preventDefault(), o(), l.length < 8) {
