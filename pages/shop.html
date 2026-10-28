@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shop parts &amp; services — G Spot Automotive Center</title>
+    <meta
+      name="description"
+      content="Book a service or reserve parts for pickup at G Spot Automotive Center. Offline demo, pickup only."
+    >
+    <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/shop.css">
+  </head>
+  <body class="shop-body" data-page="shop" data-base="../">
+    <div data-site-header></div>
+
+    <main id="main" class="shop">
+      <section class="shop-hero">
+        <div class="gs-container shop-hero__inner">
+          <div>
+            <p class="eyebrow">Customer shop · Metro Manila</p>
+            <h1>PARTS &amp;<br><em>SERVICE.</em></h1>
+            <p class="shop-hero__copy">
+              Pick a service for the bay or reserve parts for the counter. Everything is
+              collected in store — no delivery — and paid when you pick up.
+            </p>
+            <p class="shop-hero__user">
+              Signed in as <strong data-customer-name>…</strong> · <span data-customer-phone></span>
+            </p>
+          </div>
+          <div class="shop-hero__meta" aria-label="Shop details">
+            <div>
+              <span>Shop status</span>
+              <strong id="shop-state">…</strong>
+            </div>
+            <div>
+              <span>Pickup</span>
+              <strong>In store only</strong>
+            </div>
+            <div>
+              <span>Hours</span>
+              <strong>Mon–Sat 8–6</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="shop-bar">
+        <div class="gs-container shop-bar__inner">
+          <nav class="shop-tabs" aria-label="Shop sections" role="tablist">
+            <button type="button" class="shop-tab is-active" data-shop-tab="services" role="tab" aria-selected="true">Services</button>
+            <button type="button" class="shop-tab" data-shop-tab="parts" role="tab" aria-selected="false">Parts</button>
+            <button type="button" class="shop-tab" data-shop-tab="book" role="tab" aria-selected="false">Book service</button>
+            <button type="button" class="shop-tab" data-shop-tab="orders" role="tab" aria-selected="false">My orders</button>
+          </nav>
+          <button type="button" class="cart-button" data-cart-open aria-controls="cart-layer">
+            Cart <span class="cart-button__count" data-cart-count>0</span>
+          </button>
+        </div>
+      </div>
+
+      <section class="shop-panel" data-panel="services" aria-labelledby="services-title">
+        <div class="gs-container">
+          <div class="shop-head">
+            <div>
+              <h2 id="services-title">Service menu</h2>
+              <p>Twenty shop services with fixed prices and bay time. Book a slot and the shop confirms it by phone.</p>
+            </div>
+            <div class="shop-head__side">
+              <span class="badge badge--done" id="service-count">20 services</span>
+            </div>
+          </div>
+          <div class="service-grid" id="service-grid"></div>
+        </div>
+      </section>
+
+      <section class="shop-panel" data-panel="parts" aria-labelledby="parts-title" hidden>
+        <div class="gs-container">
+          <div class="shop-head">
+            <div>
+              <h2 id="parts-title">Parts counter</h2>
+              <p>Reserve what you need and collect it at the shop. Ask the counter to confirm fitment.</p>
+            </div>
+            <div class="shop-head__side">
+              <span class="badge badge--done" id="part-count">0 parts</span>
+            </div>
+          </div>
+          <div class="part-toolbar">
+            <input type="search" id="part-search" placeholder="Search by part name, SKU or category" aria-label="Search parts">
+            <select id="part-category" aria-label="Filter parts by category">
+              <option value="all">All categories</option>
+            </select>
+            <span class="field__hint" id="part-hint"></span>
+          </div>
+          <div class="part-grid" id="part-grid"></div>
+          <div class="shop-empty" id="part-empty" hidden>No parts match that search.</div>
+        </div>
+      </section>
+
+      <section class="shop-panel" data-panel="book" aria-labelledby="book-title" hidden>
+        <div class="gs-container">
+          <div class="shop-head">
+            <div>
+              <h2 id="book-title">Book a service</h2>
+              <p>Choose a service and an appointment slot. The shop confirms by phone before the bay is reserved.</p>
+            </div>
+          </div>
+
+          <div class="paused-banner" id="booking-paused" hidden>
+            Bookings are paused right now. Call the shop at (02) 8123-4789 to arrange a visit.
+          </div>
+
+          <div class="booking-layout">
+            <form class="booking-form" id="booking-form" novalidate>
+              <div class="card__body card__body--pad">
+                <div class="field">
+                  <label for="book-service">Service</label>
+                  <select id="book-service" required></select>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="book-vehicle">Vehicle</label>
+                    <input id="book-vehicle" placeholder="2020 Mazda 3" required autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label for="book-plate">Plate no.</label>
+                    <input id="book-plate" placeholder="NCR 7741" required autocomplete="off">
+                  </div>
+                </div>
+
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="book-date">Date</label>
+                    <input type="date" id="book-date" required>
+                  </div>
+                  <div class="field">
+                    <label for="book-time">Time</label>
+                    <select id="book-time" required></select>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="book-phone">Contact number</label>
+                  <input type="tel" id="book-phone" required autocomplete="tel">
+                </div>
+
+                <div class="field">
+                  <label for="book-notes">Notes (optional)</label>
+                  <textarea id="book-notes" placeholder="Noise when braking, preferred technician, anything else."></textarea>
+                </div>
+
+                <p class="field__error" id="book-error"></p>
+                <button type="submit" class="btn btn--primary btn--block" id="book-submit">Request booking</button>
+                <p class="field__hint">No payment is taken here. Pay at the counter after the work.</p>
+              </div>
+            </form>
+
+            <aside class="booking-summary" aria-label="Selected service">
+              <p class="eyebrow">Selected service</p>
+              <h3 id="book-summary-name">Oil Change</h3>
+              <p id="book-summary-desc"></p>
+              <div class="booking-summary__rows">
+                <div class="booking-summary__row">
+                  <span>Bay time</span>
+                  <strong id="book-summary-duration">45 min</strong>
+                </div>
+                <div class="booking-summary__row">
+                  <span>Payment</span>
+                  <strong>At the counter</strong>
+                </div>
+              </div>
+              <div class="booking-summary__total" id="book-summary-price">₱850</div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="shop-panel" data-panel="orders" aria-labelledby="orders-title" hidden>
+        <div class="gs-container">
+          <div class="shop-head">
+            <div>
+              <h2 id="orders-title">My orders</h2>
+              <p>Service bookings and parts reservations placed with this account.</p>
+            </div>
+            <div class="shop-head__side">
+              <button type="button" class="btn btn--quiet btn--sm" id="orders-refresh">Refresh</button>
+            </div>
+          </div>
+          <div class="orders-list" id="orders-list"></div>
+          <div class="shop-empty" id="orders-empty" hidden>
+            No bookings yet. Pick a service above or add parts to your cart.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="cart-layer" id="cart-layer" hidden>
+      <div class="cart-backdrop" data-cart-close></div>
+      <aside class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+        <header class="cart-drawer__head">
+          <div>
+            <p class="eyebrow">Counter pickup</p>
+            <h2 id="cart-title">Your cart</h2>
+          </div>
+          <button type="button" class="cart-drawer__close" data-cart-close aria-label="Close cart">×</button>
+        </header>
+
+        <div class="cart-drawer__body">
+          <div class="cart-items" id="cart-items"></div>
+          <div class="cart-empty" id="cart-empty" hidden>Your cart is empty.</div>
+
+          <form class="cart-checkout" id="cart-form" novalidate>
+            <h3>Pickup details</h3>
+
+            <div class="field">
+              <label for="pickup-name">Name</label>
+              <input id="pickup-name" readonly>
+            </div>
+
+            <div class="field">
+              <label for="pickup-phone">Phone</label>
+              <input type="tel" id="pickup-phone" required autocomplete="tel">
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="pickup-date">Pickup date</label>
+                <input type="date" id="pickup-date" required>
+              </div>
+              <div class="field">
+                <label for="pickup-time">Time</label>
+                <select id="pickup-time" required></select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="pickup-vehicle">Vehicle (optional)</label>
+              <input id="pickup-vehicle" placeholder="2020 Mazda 3 · NCR 7741" autocomplete="off">
+            </div>
+
+            <div class="field">
+              <label for="pickup-note">Note (optional)</label>
+              <input id="pickup-note" placeholder="Anything the counter should know." autocomplete="off">
+            </div>
+
+            <div class="cart-total">
+              <span>Total</span>
+              <strong id="cart-total">₱0</strong>
+            </div>
+
+            <p class="field__hint" id="cart-hint">Reserve now and pay when you collect the parts. Pickup only — no delivery.</p>
+            <p class="field__error" id="cart-error"></p>
+            <button type="submit" class="btn btn--primary btn--block" id="cart-submit">Place pickup order</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <div class="qr-layer" id="qr-layer" hidden>
+      <div class="qr-backdrop" data-qr-close></div>
+      <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title" aria-describedby="qr-hint">
+        <button type="button" class="qr-dialog__close" data-qr-close aria-label="Close pickup pass">×</button>
+        <p class="eyebrow">Pickup pass</p>
+        <h2 id="qr-title">B-0000</h2>
+        <p class="qr-dialog__kind" id="qr-kind"></p>
+        <div class="qr-code" id="qr-code"></div>
+        <p class="qr-dialog__hint" id="qr-hint">
+          Show this code at the counter. Demo pass — no payment is taken online.
+        </p>
+        <div class="qr-dialog__foot">
+          <strong id="qr-total"></strong>
+          <button type="button" class="btn btn--primary btn--sm" data-qr-close>Done</button>
+        </div>
+      </div>
+    </div>
+
+    <div data-site-footer></div>
+
+    <noscript>
+      <p style="padding:16px;background:#fff3cd;color:#513c06;font:14px system-ui">
+        The shop needs JavaScript. Enable it and open this page with the VS Code
+        <strong>Live Server</strong> extension.
+      </p>
+    </noscript>
+
+    <script src="../js/vendor/qrcode.js"></script>
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module" src="../js/shop.js"></script>
+  </body>
+</html>

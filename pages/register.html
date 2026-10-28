@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create an account — G Spot Automotive Center</title>
+    <meta name="description" content="Create a G Spot Automotive customer account for the offline demo. No real data is sent.">
+    <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/customer-login.css">
+  </head>
+  <body data-page="register" data-base="../">
+    <div data-site-header></div>
+
+    <main class="auth" id="main">
+      <section class="auth__brand">
+        <div class="auth__top">
+          <a class="auth__back" href="../index.html">← Back to home</a>
+        </div>
+        <div class="auth__body">
+          <p class="eyebrow eyebrow--light">New customer</p>
+          <h1>JOIN THE<br>SHOP.</h1>
+          <p>
+            Create a demo account so your name, email and phone are ready the next time you sign
+            in. Everything stays in this browser.
+          </p>
+          <ul class="auth__bullets">
+            <li>Takes less than a minute</li>
+            <li>No email confirmation is sent</li>
+            <li>Reset or delete it by clearing browser data</li>
+          </ul>
+        </div>
+        <div class="auth__tag">
+          <span>G Spot Automotive · Mandaluyong</span>
+          <span>Pickup only · No shipping</span>
+        </div>
+      </section>
+
+      <section class="auth__panel">
+        <div class="auth-card auth-card--wide">
+          <div class="auth-card__head">
+            <p class="eyebrow">Customer account</p>
+            <h2>Create account</h2>
+            <p class="auth-card__sub">One account for your contact details and future bookings.</p>
+          </div>
+
+          <div class="form-alert" id="register-error" role="alert"></div>
+
+          <form class="form" id="register-form" novalidate>
+            <div class="field">
+              <label for="register-name">Full name</label>
+              <input id="register-name" name="name" type="text" autocomplete="name" placeholder="Juan Dela Cruz" required>
+            </div>
+
+            <div class="field">
+              <label for="register-email">Email address</label>
+              <input id="register-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="field">
+              <label for="register-phone">Mobile number</label>
+              <input id="register-phone" name="phone" type="tel" autocomplete="tel" placeholder="+63 917 555 0100" required>
+            </div>
+
+            <div class="field">
+              <label for="register-password">Password</label>
+              <div class="input-shell">
+                <input
+                  id="register-password"
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                  placeholder="At least 8 characters"
+                  required
+                >
+                <button type="button" class="password-toggle" data-toggle-password="register-password" aria-pressed="false">Show</button>
+              </div>
+              <p class="field__hint">Use at least 8 characters.</p>
+            </div>
+
+            <div class="field">
+              <label for="register-confirm">Confirm password</label>
+              <div class="input-shell">
+                <input
+                  id="register-confirm"
+                  name="confirmPassword"
+                  type="password"
+                  autocomplete="new-password"
+                  placeholder="Repeat your password"
+                  required
+                >
+                <button type="button" class="password-toggle" data-toggle-password="register-confirm" aria-pressed="false">Show</button>
+              </div>
+            </div>
+
+            <label class="check">
+              <input type="checkbox" id="register-terms">
+              <span>I understand this is a demo account. No real data is sent and no real password should be used.</span>
+            </label>
+
+            <button type="submit" class="btn btn--primary btn--block">Create account</button>
+          </form>
+
+          <p class="auth-card__switch">Already have an account? <a href="customer-login.html">Sign in</a></p>
+          <p class="auth-card__note">
+            Staff accounts are created by an administrator. <a class="text-link" href="staff-login.html">Staff sign in</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module">
+      import { registerCustomer } from '../js/auth.js';
+
+      const form = document.getElementById('register-form');
+      const errorBox = document.getElementById('register-error');
+      const terms = document.getElementById('register-terms');
+      const fields = {
+        name: document.getElementById('register-name'),
+        email: document.getElementById('register-email'),
+        phone: document.getElementById('register-phone'),
+        password: document.getElementById('register-password'),
+        confirmPassword: document.getElementById('register-confirm')
+      };
+
+      function showError(message, focusField) {
+        errorBox.textContent = message;
+        errorBox.classList.add('is-visible');
+        Object.values(fields).forEach(field => field.removeAttribute('aria-invalid'));
+        if (focusField) {
+          fields[focusField].setAttribute('aria-invalid', 'true');
+          fields[focusField].focus();
+        }
+      }
+
+      function clearError() {
+        errorBox.textContent = '';
+        errorBox.classList.remove('is-visible');
+        Object.values(fields).forEach(field => field.removeAttribute('aria-invalid'));
+      }
+
+      form.addEventListener('input', clearError);
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        clearError();
+
+        if (!terms.checked) {
+          showError('Tick the demo notice before creating the account.');
+          return;
+        }
+
+        const result = registerCustomer({
+          name: fields.name.value,
+          email: fields.email.value,
+          phone: fields.phone.value,
+          password: fields.password.value,
+          confirmPassword: fields.confirmPassword.value
+        });
+
+        if (!result.ok) {
+          const message = result.error.toLowerCase();
+          const focusField = message.includes('email')
+            ? 'email'
+            : message.includes('name')
+              ? 'name'
+              : message.includes('phone')
+                ? 'phone'
+                : message.includes('match')
+                  ? 'confirmPassword'
+                  : 'password';
+          showError(result.error, focusField);
+          return;
+        }
+
+        location.assign('shop.html?welcome=1');
+      });
+
+      document.querySelectorAll('[data-toggle-password]').forEach(button => {
+        button.addEventListener('click', () => {
+          const input = document.getElementById(button.dataset.togglePassword);
+          const reveal = input.type === 'password';
+          input.type = reveal ? 'text' : 'password';
+          button.textContent = reveal ? 'Hide' : 'Show';
+          button.setAttribute('aria-pressed', String(reveal));
+        });
+      });
+    </script>
+  </body>
+</html>

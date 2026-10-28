@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer sign in — G Spot Automotive Center</title>
+    <meta name="description" content="Sign in to your G Spot Automotive customer account. Offline demo with browser-only accounts.">
+    <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/customer-login.css">
+  </head>
+  <body data-page="customer-login" data-base="../">
+    <div data-site-header></div>
+
+    <main class="auth" id="main">
+      <section class="auth__brand">
+        <div class="auth__top">
+          <a class="auth__back" href="../index.html">← Back to home</a>
+        </div>
+        <div class="auth__body">
+          <p class="eyebrow eyebrow--light">Customer access</p>
+          <h1>WELCOME<br>BACK.</h1>
+          <p>
+            Sign in to pick up where you left off. Your demo account and session stay in this
+            browser — nothing is sent to a server.
+          </p>
+          <ul class="auth__bullets">
+            <li>No real payments or emails</li>
+            <li>Demo accounts live in local storage</li>
+            <li>Sign out from the header any time</li>
+          </ul>
+        </div>
+        <div class="auth__tag">
+          <span>G Spot Automotive · Mandaluyong</span>
+          <span>Mon–Sat 8:00 AM – 6:00 PM</span>
+        </div>
+      </section>
+
+      <section class="auth__panel">
+        <div class="auth-card">
+          <div class="auth-card__head">
+            <p class="eyebrow">Customer account</p>
+            <h2>Sign in</h2>
+            <p class="auth-card__sub">Use the email and password you registered with.</p>
+          </div>
+
+          <div class="form-alert form-alert--info" id="current-session" role="status"></div>
+          <div class="form-alert" id="login-error" role="alert"></div>
+
+          <form class="form" id="customer-login-form" novalidate>
+            <div class="field">
+              <label for="login-email">Email address</label>
+              <input
+                id="login-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label for="login-password">Password</label>
+              <div class="input-shell">
+                <input
+                  id="login-password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Your password"
+                  required
+                >
+                <button type="button" class="password-toggle" data-toggle-password="login-password" aria-pressed="false">Show</button>
+              </div>
+            </div>
+
+            <div class="field__row">
+              <span class="field__hint">Sessions stay in this browser.</span>
+              <a class="text-link" href="forgot-password.html">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--block">Sign in</button>
+          </form>
+
+          <div class="auth-divider">or use the demo account</div>
+
+          <div class="demo-box">
+            <p class="demo-box__label">Demo customer</p>
+            <button
+              type="button"
+              class="demo-fill"
+              data-demo-fill
+              data-email="maria.santos@example.com"
+              data-password="demo1234"
+            >
+              <span>
+                Maria Santos
+                <code>maria.santos@example.com · demo1234</code>
+              </span>
+              <em>Use</em>
+            </button>
+          </div>
+
+          <p class="auth-card__switch">New to G Spot? <a href="register.html">Create an account</a></p>
+          <p class="auth-card__note">
+            Shop staff use a separate door: <a class="text-link" href="staff-login.html">staff sign in</a>.
+            Demo only — never enter a real password here.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module">
+      import { getCustomerSession, loginCustomer, logoutCustomer } from '../js/auth.js';
+      import { escapeHtml } from '../js/navigation.js';
+
+      const form = document.getElementById('customer-login-form');
+      const errorBox = document.getElementById('login-error');
+      const emailInput = document.getElementById('login-email');
+      const passwordInput = document.getElementById('login-password');
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.classList.add('is-visible');
+        emailInput.setAttribute('aria-invalid', 'true');
+        passwordInput.setAttribute('aria-invalid', 'true');
+      }
+
+      function clearError() {
+        errorBox.textContent = '';
+        errorBox.classList.remove('is-visible');
+        emailInput.removeAttribute('aria-invalid');
+        passwordInput.removeAttribute('aria-invalid');
+      }
+
+      const session = getCustomerSession();
+      if (session) {
+        const box = document.getElementById('current-session');
+        box.classList.add('is-visible');
+        box.innerHTML = `Already signed in as <strong>${escapeHtml(session.name)}</strong>. <a class="text-link" href="shop.html">Open the shop</a> or <button type="button" class="text-link" data-signout>sign out</button> to switch accounts.`;
+        box.querySelector('[data-signout]').addEventListener('click', () => {
+          logoutCustomer();
+          location.reload();
+        });
+      }
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        clearError();
+        const result = loginCustomer(emailInput.value, passwordInput.value);
+        if (!result.ok) {
+          showError(result.error);
+          (result.error.includes('password') ? passwordInput : emailInput).focus();
+          return;
+        }
+        location.assign('shop.html?signedin=1');
+      });
+
+      form.addEventListener('input', clearError);
+
+      document.querySelector('[data-demo-fill]').addEventListener('click', button => {
+        const target = button.currentTarget;
+        emailInput.value = target.dataset.email;
+        passwordInput.value = target.dataset.password;
+        clearError();
+        form.querySelector('button[type="submit"]').focus();
+      });
+
+      document.querySelectorAll('[data-toggle-password]').forEach(button => {
+        button.addEventListener('click', () => {
+          const input = document.getElementById(button.dataset.togglePassword);
+          const reveal = input.type === 'password';
+          input.type = reveal ? 'text' : 'password';
+          button.textContent = reveal ? 'Hide' : 'Show';
+          button.setAttribute('aria-pressed', String(reveal));
+        });
+      });
+    </script>
+  </body>
+</html>

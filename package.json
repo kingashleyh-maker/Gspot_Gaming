@@ -3,9 +3,5 @@
   "private": true,
   "version": "1.0.0",
   "description": "G Spot Automotive Center — multi-role frontend demo (customer, manager, admin)",
-  "type": "module",
-  "scripts": {
-    "dev": "node tools/serve.mjs",
-    "start": "node tools/serve.mjs"
-  }
+  "type": "module"
 }

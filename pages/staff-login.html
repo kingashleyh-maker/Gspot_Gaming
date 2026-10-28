@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Staff sign in — G Spot Automotive Center</title>
+    <meta name="description" content="Manager and administrator sign-in for the G Spot Automotive demo dashboards.">
+    <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/pages/staff-login.css">
+  </head>
+  <body data-page="staff-login" data-base="../">
+    <div data-site-header></div>
+
+    <main class="staff-auth" id="main">
+      <section class="staff-auth__brand">
+        <div class="staff-auth__top">
+          <a class="staff-auth__back" href="../index.html">← Back to home</a>
+        </div>
+
+        <div class="staff-auth__body">
+          <p class="eyebrow eyebrow--light">Shop operations</p>
+          <div class="staff-auth__roles">
+            <span class="role-chip">Manager</span>
+            <span class="role-chip">Administrator</span>
+          </div>
+          <h1>RUN THE<br>SHOP.</h1>
+          <p>
+            One staff door for both roles. Sign in and the demo sends you to the dashboard that
+            matches your account.
+          </p>
+          <ul class="staff-auth__list">
+            <li>Managers update bookings and stock levels</li>
+            <li>Administrators manage accounts, audit and settings</li>
+            <li>Customer accounts cannot sign in here</li>
+          </ul>
+        </div>
+
+        <div class="staff-auth__foot">
+          <span>Front-end demo</span>
+          <span>Role checks run in the browser</span>
+        </div>
+      </section>
+
+      <section class="staff-auth__panel">
+        <div class="staff-card">
+          <div class="staff-card__head">
+            <p class="eyebrow">Staff access</p>
+            <h2>Staff sign in</h2>
+            <p class="staff-card__sub">Use your work email and password. The account's role chooses the dashboard.</p>
+          </div>
+
+          <div class="form-alert form-alert--info" id="staff-session" role="status"></div>
+          <div class="form-alert" id="staff-error" role="alert"></div>
+
+          <form class="form" id="staff-login-form" novalidate>
+            <div class="field">
+              <label for="staff-email">Work email</label>
+              <input
+                id="staff-email"
+                name="email"
+                type="email"
+                autocomplete="username"
+                placeholder="name@gspotauto.ph"
+                required
+              >
+            </div>
+
+            <div class="field">
+              <label for="staff-password">Password</label>
+              <div class="input-shell">
+                <input
+                  id="staff-password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="Your password"
+                  required
+                >
+                <button type="button" class="password-toggle" data-toggle-password="staff-password" aria-pressed="false">Show</button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--block">Sign in</button>
+          </form>
+
+          <div class="auth-divider">demo staff accounts</div>
+
+          <div class="staff-demo-grid">
+            <button
+              type="button"
+              class="staff-demo"
+              data-staff-fill
+              data-email="sarah.chen@gspotauto.ph"
+              data-password="manager123"
+            >
+              <span class="staff-demo__role">Manager</span>
+              <span class="staff-demo__body">
+                <strong>Sarah Chen</strong>
+                <code>sarah.chen@gspotauto.ph · manager123</code>
+              </span>
+              <em>Use</em>
+            </button>
+            <button
+              type="button"
+              class="staff-demo"
+              data-staff-fill
+              data-email="admin@gspotauto.ph"
+              data-password="admin123"
+            >
+              <span class="staff-demo__role staff-demo__role--admin">Admin</span>
+              <span class="staff-demo__body">
+                <strong>Ana Villanueva</strong>
+                <code>admin@gspotauto.ph · admin123</code>
+              </span>
+              <em>Use</em>
+            </button>
+          </div>
+
+          <p class="staff-warning">
+            Front-end demo only. Sessions and role checks live in this browser, so they are not real
+            security. Never enter a real staff password.
+          </p>
+
+          <p class="staff-card__switch">
+            Customer account? <a href="customer-login.html">Use customer sign in</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module">
+      import { getStaffSession, staffLogin, staffLogout } from '../js/staff-auth.js';
+      import { escapeHtml } from '../js/navigation.js';
+
+      const form = document.getElementById('staff-login-form');
+      const emailInput = document.getElementById('staff-email');
+      const passwordInput = document.getElementById('staff-password');
+      const errorBox = document.getElementById('staff-error');
+
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.classList.add('is-visible');
+        emailInput.setAttribute('aria-invalid', 'true');
+        passwordInput.setAttribute('aria-invalid', 'true');
+        (message.toLowerCase().includes('password') ? passwordInput : emailInput).focus();
+      }
+
+      function clearError() {
+        errorBox.textContent = '';
+        errorBox.classList.remove('is-visible');
+        emailInput.removeAttribute('aria-invalid');
+        passwordInput.removeAttribute('aria-invalid');
+      }
+
+      const session = getStaffSession();
+      if (session) {
+        const box = document.getElementById('staff-session');
+        const target = session.role === 'Admin' ? 'admin.html' : 'manager.html';
+        box.classList.add('is-visible');
+        box.innerHTML =
+          `Already signed in as <strong>${escapeHtml(session.name)}</strong> (${escapeHtml(session.role)}). ` +
+          `<a class="text-link" href="${target}">Open dashboard</a> · ` +
+          '<button type="button" class="text-link" data-staff-signout>Sign out</button>';
+        box.querySelector('[data-staff-signout]').addEventListener('click', () => {
+          staffLogout();
+          location.reload();
+        });
+      }
+
+      form.addEventListener('input', clearError);
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        clearError();
+        const result = staffLogin(emailInput.value, passwordInput.value);
+        if (!result.ok) {
+          showError(result.error);
+          return;
+        }
+        location.assign(result.session.role === 'Admin' ? 'admin.html' : 'manager.html');
+      });
+
+      document.querySelectorAll('[data-staff-fill]').forEach(button => {
+        button.addEventListener('click', () => {
+          emailInput.value = button.dataset.email;
+          passwordInput.value = button.dataset.password;
+          clearError();
+          form.querySelector('button[type="submit"]').focus();
+        });
+      });
+
+      document.querySelectorAll('[data-toggle-password]').forEach(button => {
+        button.addEventListener('click', () => {
+          const input = document.getElementById(button.dataset.togglePassword);
+          const reveal = input.type === 'password';
+          input.type = reveal ? 'text' : 'password';
+          button.textContent = reveal ? 'Hide' : 'Show';
+          button.setAttribute('aria-pressed', String(reveal));
+        });
+      });
+    </script>
+  </body>
+</html>

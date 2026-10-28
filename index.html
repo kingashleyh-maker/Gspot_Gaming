@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>G Spot Automotive Center — Accounts & shop access</title>
+    <meta
+      name="description"
+      content="Customer sign-in, account registration and the G Spot manager and admin dashboards. Offline demo, no real payments."
+    >
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body data-page="home" data-base="./">
+    <div data-site-header></div>
+
+    <main id="main">
+      <section class="home-hero">
+        <div class="home-hero__copy">
+          <p class="eyebrow eyebrow--light">G Spot Automotive Center · Mandaluyong</p>
+          <h1>SIGN IN.<br>BOOK.<br><em>TRACK.</em></h1>
+          <p>
+            Book a service bay or reserve parts for pickup, then track the job from your account.
+            Create an account to keep your details on file, or sign in with a demo staff account
+            to open the dashboards.
+          </p>
+          <div class="home-hero__actions">
+            <a class="btn btn--primary" href="pages/customer-login.html">Customer log in</a>
+            <a class="btn btn--ghost-light" href="pages/register.html">Create an account</a>
+            <a class="btn btn--ghost-light" href="pages/shop.html">Shop services &amp; parts</a>
+          </div>
+          <ul class="home-hero__meta">
+            <li>In-store pickup only</li>
+            <li>Demo data · no real payments</li>
+            <li>Open Mon–Sat 8:00 AM – 6:00 PM</li>
+          </ul>
+        </div>
+        <div class="home-hero__media">
+          <img src="assets/images/service-bay.jpg" alt="Technician servicing a car engine bay with air-conditioning gauges">
+          <div class="home-hero__card">
+            <div>
+              <strong>At the counter</strong>
+              <span>Unit 5, 123 J.P. Rizal Street, Mandaluyong</span>
+            </div>
+            <div>
+              <strong>Store hours</strong>
+              <span>Mon–Sat 8:00 AM – 6:00 PM · Sun 9:00 AM – 4:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="gs-container">
+          <div class="section__head">
+            <div>
+              <p class="eyebrow">Choose your access</p>
+              <h2>One shop. Three doors.</h2>
+            </div>
+            <p>
+              Customers use their own account. Managers run the counter queue and stock, while
+              administrators manage accounts and settings.
+            </p>
+          </div>
+
+          <div class="access-grid">
+            <article class="access-card">
+              <span class="access-card__icon" aria-hidden="true">01</span>
+              <h3>Customer account</h3>
+              <p>
+                Sign in to book a service bay, reserve parts for pickup and follow every job.
+                Your details stay in this browser for the demo.
+              </p>
+              <ul>
+                <li>20 service bookings</li>
+                <li>36 parts for pickup</li>
+                <li>Orders tracked in the queue</li>
+              </ul>
+              <div class="access-card__actions">
+                <a class="btn btn--primary btn--sm" href="pages/customer-login.html">Log in</a>
+                <a class="btn btn--quiet btn--sm" href="pages/register.html">Sign up</a>
+              </div>
+            </article>
+
+            <article class="access-card">
+              <span class="access-card__icon" aria-hidden="true">02</span>
+              <h3>Manager dashboard</h3>
+              <p>
+                The counter view: today's bookings, status changes and the stock that needs
+                attention.
+              </p>
+              <ul>
+                <li>Queue filtered by status</li>
+                <li>Start, ready and pick-up actions</li>
+                <li>Stock counts with low-stock alerts</li>
+              </ul>
+              <div class="access-card__actions">
+                <a class="btn btn--quiet btn--sm" href="pages/staff-login.html">Manager sign in</a>
+              </div>
+            </article>
+
+            <article class="access-card">
+              <span class="access-card__icon" aria-hidden="true">03</span>
+              <h3>Admin dashboard</h3>
+              <p>
+                Shop-wide controls: the account list, the audit trail and the settings managers see.
+              </p>
+              <ul>
+                <li>Activate or deactivate accounts</li>
+                <li>Search and filter the audit log</li>
+                <li>Store name, hours flag and stock threshold</li>
+              </ul>
+              <div class="access-card__actions">
+                <a class="btn btn--quiet btn--sm" href="pages/staff-login.html">Admin sign in</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-band">
+        <div class="demo-band__inner">
+          <div>
+            <p class="eyebrow eyebrow--light">Demo build</p>
+            <h2>Safe to click around.</h2>
+            <p>
+              This site is a front-end demonstration. Accounts, sessions and shop records are kept in
+              your browser's local storage, and nothing is sent anywhere.
+            </p>
+          </div>
+          <ul class="demo-band__list">
+            <li>
+              <strong>Browser-only accounts</strong>
+              <span>Demo passwords are stored locally and are not real credentials.</span>
+            </li>
+            <li>
+              <strong>No payments, no email</strong>
+              <span>Password resets are simulated and no message leaves this machine.</span>
+            </li>
+            <li>
+              <strong>Resettable</strong>
+              <span>The admin settings page can restore every demo record to its seed state.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+
+    <noscript>
+      <p style="padding:16px;background:#fff3cd;color:#513c06;font:14px system-ui">
+        This demo needs JavaScript. Enable it and open this page with the VS Code
+        <strong>Live Server</strong> extension.
+      </p>
+    </noscript>
+
+    <script type="module" src="js/navigation.js"></script>
+  </body>
+</html>

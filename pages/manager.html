@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manager dashboard — G Spot Automotive Center</title>
+    <meta name="description" content="Demo manager dashboard: booking queue, status updates and stock counts.">
+    <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/main.css">
+  </head>
+  <body class="dash-body" data-page="manager" data-base="../">
+    <div class="dash">
+      <aside class="dash-side">
+        <div class="dash-brand">
+          <span class="brand__mark" aria-hidden="true">G</span>
+          <div class="dash-brand__text">
+            <strong>G Spot</strong>
+            <span>Operations</span>
+          </div>
+        </div>
+
+        <nav class="dash-nav" aria-label="Manager sections">
+          <a href="#overview" class="is-active" data-dash-link>Overview</a>
+          <a href="#queue" data-dash-link>Queue</a>
+          <a href="#inventory" data-dash-link>Inventory</a>
+        </nav>
+
+        <div class="dash-side__foot">
+          <div class="dash-user">
+            <strong data-staff-name>Loading…</strong>
+            <span>Manager · <span data-staff-email></span></span>
+          </div>
+          <div class="dash-side__links">
+            <a href="../index.html">Website</a>
+            <button type="button" data-staff-logout>Sign out</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="dash-main">
+        <header class="dash-top">
+          <div>
+            <p class="eyebrow">Manager</p>
+            <h1>Shop overview</h1>
+          </div>
+          <div class="dash-top__meta">
+            <span class="mono muted" id="today-label"></span>
+            <span class="badge badge--ok" id="shop-state">Bookings open</span>
+          </div>
+        </header>
+
+        <div class="dash-content">
+          <section class="stat-grid" id="overview" aria-label="Shop at a glance">
+            <article class="stat stat--red">
+              <strong id="stat-open">0</strong>
+              <span>Open tickets</span>
+            </article>
+            <article class="stat stat--blue">
+              <strong id="stat-service">0</strong>
+              <span>In service</span>
+            </article>
+            <article class="stat stat--green">
+              <strong id="stat-ready">0</strong>
+              <span>Ready for pickup</span>
+            </article>
+            <article class="stat stat--amber">
+              <strong id="stat-low">0</strong>
+              <span>Low-stock items</span>
+            </article>
+          </section>
+
+          <section class="card" id="queue" aria-labelledby="queue-title">
+            <div class="card__head">
+              <div>
+                <h2 id="queue-title">Ticket &amp; order queue</h2>
+                <p class="hint">Advance a booking as the work moves along.</p>
+              </div>
+              <span class="badge badge--done" id="queue-count">0 shown</span>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Filter bookings" id="queue-tabs"></div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Booking</th>
+                    <th>Customer &amp; vehicle</th>
+                    <th>Type</th>
+                    <th>Items</th>
+                    <th>Status</th>
+                    <th class="num">Total</th>
+                    <th>Updated</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="queue-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card" id="inventory" aria-labelledby="inventory-title">
+            <div class="card__head">
+              <div>
+                <h2 id="inventory-title">Parts inventory</h2>
+                <p class="hint">Adjust counts as stock is received or used at the counter.</p>
+              </div>
+              <span class="badge badge--done" id="stock-count">—</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>SKU</th>
+                    <th>Part</th>
+                    <th class="num">Price</th>
+                    <th class="num">Stock</th>
+                    <th>Status</th>
+                    <th class="num">Adjust</th>
+                  </tr>
+                </thead>
+                <tbody id="inventory-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="qr-layer" id="qr-layer" hidden>
+      <div class="qr-backdrop" data-qr-close></div>
+      <div class="qr-dialog" role="dialog" aria-modal="true" aria-labelledby="qr-title" aria-describedby="qr-hint">
+        <button type="button" class="qr-dialog__close" data-qr-close aria-label="Close pickup pass">×</button>
+        <p class="eyebrow">Pickup pass</p>
+        <h2 id="qr-title">B-0000</h2>
+        <p class="qr-dialog__kind" id="qr-kind"></p>
+        <div class="qr-code" id="qr-code"></div>
+        <p class="qr-dialog__hint" id="qr-hint">
+          Scan at collection or match the number at the counter. Demo pass — no online payment.
+        </p>
+        <div class="qr-dialog__foot">
+          <strong id="qr-total"></strong>
+          <button type="button" class="btn btn--primary btn--sm" data-qr-close>Done</button>
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+      <p style="padding:16px;background:#fff3cd;color:#513c06;font:14px system-ui">
+        This dashboard needs JavaScript. Enable it and open
+        <strong>pages/staff-login.html</strong> with the VS Code <strong>Live Server</strong> extension.
+      </p>
+    </noscript>
+
+    <script src="../js/vendor/qrcode.js"></script>
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module">
+      import { loadOps, recordAudit, requireStaff, saveOps, staffLogout } from '../js/staff-auth.js';
+      import { escapeHtml, formatDateTime, peso, toast } from '../js/navigation.js';
+      import { renderQr } from '../js/qr.js';
+
+      const STATUS = {
+        pending: { label: 'Pending', badge: 'pending', next: 'in-progress', action: 'Start job' },
+        'in-progress': { label: 'In service', badge: 'progress', next: 'ready', action: 'Mark ready' },
+        ready: { label: 'Ready for pickup', badge: 'ready', next: 'completed', action: 'Mark picked up' },
+        completed: { label: 'Completed', badge: 'done', next: null, action: '' }
+      };
+
+      const FILTERS = [
+        ['all', 'All'],
+        ['pending', 'Pending'],
+        ['in-progress', 'In service'],
+        ['ready', 'Ready'],
+        ['completed', 'Completed']
+      ];
+
+      const session = requireStaff('Manager');
+
+      if (session) {
+        start(session);
+      }
+
+      function start(staff) {
+        document.body.classList.add('is-authed');
+
+        document.querySelectorAll('[data-staff-name]').forEach(node => {
+          node.textContent = staff.name;
+        });
+        document.querySelectorAll('[data-staff-email]').forEach(node => {
+          node.textContent = staff.email;
+        });
+        document.getElementById('today-label').textContent = new Date().toLocaleDateString('en-PH', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
+        });
+
+        let activeFilter = 'all';
+
+        const queueTabs = document.getElementById('queue-tabs');
+        const queueBody = document.getElementById('queue-body');
+        const inventoryBody = document.getElementById('inventory-body');
+
+        const bookingTotal = booking =>
+          booking.items.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+        function renderStats() {
+          const ops = loadOps();
+          const count = status => ops.bookings.filter(booking => booking.status === status).length;
+          const lowStock = ops.inventory.filter(part => part.stock <= ops.settings.lowStockThreshold).length;
+
+          document.getElementById('stat-open').textContent = count('pending') + count('in-progress');
+          document.getElementById('stat-service').textContent = count('in-progress');
+          document.getElementById('stat-ready').textContent = count('ready');
+          document.getElementById('stat-low').textContent = lowStock;
+
+          const state = document.getElementById('shop-state');
+          state.textContent = ops.settings.bookingOpen ? 'Bookings open' : 'Bookings paused';
+          state.className = `badge ${ops.settings.bookingOpen ? 'badge--ok' : 'badge--off'}`;
+        }
+
+        function renderTabs() {
+          const ops = loadOps();
+          queueTabs.innerHTML = FILTERS.map(([id, label]) => {
+            const total =
+              id === 'all'
+                ? ops.bookings.length
+                : ops.bookings.filter(booking => booking.status === id).length;
+            return `<button type="button" class="tab${id === activeFilter ? ' is-active' : ''}"
+              data-filter="${id}" role="tab" aria-selected="${id === activeFilter}">${label} (${total})</button>`;
+          }).join('');
+        }
+
+        function renderQueue() {
+          const ops = loadOps();
+          const visible =
+            activeFilter === 'all'
+              ? ops.bookings
+              : ops.bookings.filter(booking => booking.status === activeFilter);
+
+          document.getElementById('queue-count').textContent = `${visible.length} shown`;
+
+          if (!visible.length) {
+            queueBody.innerHTML =
+              '<tr><td colspan="8"><div class="empty">No bookings in this view.</div></td></tr>';
+            return;
+          }
+
+          queueBody.innerHTML = visible
+            .map(booking => {
+              const status = STATUS[booking.status] || STATUS.pending;
+              const items = booking.items.map(item => `${item.qty}× ${item.name}`).join(', ');
+              const action = status.next
+                ? `<button type="button" class="btn btn--quiet btn--sm" data-advance="${booking.id}"
+                     data-next="${status.next}">${status.action}</button>`
+                : '<span class="cell-sub">Closed</span>';
+
+              return `
+                <tr>
+                  <td><strong class="mono">${escapeHtml(booking.number)}</strong></td>
+                  <td>
+                    <div class="cell-title">${escapeHtml(booking.customer)}</div>
+                    <div class="cell-sub">${escapeHtml(booking.vehicle)}</div>
+                  </td>
+                  <td><span class="badge badge--done">${escapeHtml(booking.kind)}</span></td>
+                  <td>${escapeHtml(items)}</td>
+                  <td>
+                    <span class="badge badge--${status.badge}">${status.label}</span>
+                    <div class="cell-sub">${escapeHtml(booking.note)}</div>
+                  </td>
+                  <td class="num">${peso(bookingTotal(booking))}</td>
+                  <td class="cell-sub">${formatDateTime(booking.updatedAt)}</td>
+                  <td><div class="row-actions">
+                    <button type="button" class="btn btn--quiet btn--sm" data-qr="${booking.id}"
+                      aria-label="Show pickup pass for ${escapeHtml(booking.number)}">QR</button>
+                    ${action}
+                  </div></td>
+                </tr>`;
+            })
+            .join('');
+        }
+
+        function renderInventory() {
+          const ops = loadOps();
+          const threshold = ops.settings.lowStockThreshold;
+          const low = ops.inventory.filter(part => part.stock <= threshold).length;
+
+          document.getElementById('stock-count').textContent = `${low} low · threshold ${threshold}`;
+
+          inventoryBody.innerHTML = ops.inventory
+            .map(part => {
+              const lowStock = part.stock <= threshold;
+              return `
+                <tr>
+                  <td class="mono">${escapeHtml(part.sku)}</td>
+                  <td>
+                    <div class="cell-title">${escapeHtml(part.name)}</div>
+                    <div class="cell-sub">${escapeHtml(part.category)}</div>
+                  </td>
+                  <td class="num">${peso(part.price)}</td>
+                  <td class="num">${part.stock}</td>
+                  <td>
+                    <span class="badge badge--${lowStock ? 'low' : 'ok'}">
+                      ${lowStock ? 'Low stock' : 'In stock'}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="stock">
+                      <button type="button" data-stock="${part.id}" data-delta="-1"
+                        aria-label="Remove one ${escapeHtml(part.name)}">−</button>
+                      <output>${part.stock}</output>
+                      <button type="button" data-stock="${part.id}" data-delta="1"
+                        aria-label="Add one ${escapeHtml(part.name)}">+</button>
+                    </div>
+                  </td>
+                </tr>`;
+            })
+            .join('');
+        }
+
+        function renderAll() {
+          renderStats();
+          renderTabs();
+          renderQueue();
+          renderInventory();
+        }
+
+        const qrLayer = document.getElementById('qr-layer');
+        let openQrId = null;
+        let lastQrFocus = null;
+
+        function paintQr(booking) {
+          document.getElementById('qr-title').textContent = booking.number;
+          document.getElementById('qr-kind').textContent = `${booking.kind} · ${booking.customer}`;
+          document.getElementById('qr-total').textContent = peso(bookingTotal(booking));
+          renderQr(document.getElementById('qr-code'), booking);
+        }
+
+        function openQr(booking) {
+          openQrId = booking.id;
+          paintQr(booking);
+          lastQrFocus = document.activeElement;
+          qrLayer.hidden = false;
+          document.body.classList.add('qr-open');
+          qrLayer.querySelector('.qr-dialog__close').focus();
+        }
+
+        function closeQr() {
+          if (qrLayer.hidden) return;
+          qrLayer.hidden = true;
+          document.body.classList.remove('qr-open');
+          openQrId = null;
+          if (lastQrFocus && typeof lastQrFocus.focus === 'function') lastQrFocus.focus();
+        }
+
+        qrLayer.querySelectorAll('[data-qr-close]').forEach(node => {
+          node.addEventListener('click', closeQr);
+        });
+
+        document.addEventListener('keydown', event => {
+          if (event.key === 'Escape') closeQr();
+        });
+
+        window.addEventListener('storage', event => {
+          if (!event.key || !event.key.startsWith('gspot.ops.')) return;
+          renderAll();
+          if (!qrLayer.hidden && openQrId) {
+            const booking = loadOps().bookings.find(item => item.id === openQrId);
+            if (booking) paintQr(booking);
+          }
+        });
+
+        queueTabs.addEventListener('click', event => {
+          const tab = event.target.closest('[data-filter]');
+          if (!tab) return;
+          activeFilter = tab.dataset.filter;
+          renderTabs();
+          renderQueue();
+        });
+
+        queueBody.addEventListener('click', event => {
+          const qrButton = event.target.closest('[data-qr]');
+          if (qrButton) {
+            const booking = loadOps().bookings.find(item => item.id === qrButton.dataset.qr);
+            if (booking) openQr(booking);
+            return;
+          }
+
+          const button = event.target.closest('[data-advance]');
+          if (!button) return;
+
+          const ops = loadOps();
+          const booking = ops.bookings.find(item => item.id === button.dataset.advance);
+          if (!booking) return;
+
+          const from = (STATUS[booking.status] || STATUS.pending).label;
+          booking.status = button.dataset.next;
+          booking.updatedAt = new Date().toISOString();
+          saveOps(ops);
+          recordAudit(staff, 'Booking status', `${booking.number} ${from} → ${STATUS[booking.status].label}`);
+          renderAll();
+          toast(`${booking.number} moved to ${STATUS[booking.status].label.toLowerCase()}.`, 'success');
+        });
+
+        inventoryBody.addEventListener('click', event => {
+          const button = event.target.closest('[data-stock]');
+          if (!button) return;
+
+          const ops = loadOps();
+          const part = ops.inventory.find(item => item.id === button.dataset.stock);
+          if (!part) return;
+
+          const delta = Number(button.dataset.delta);
+          const next = Math.max(0, part.stock + delta);
+          if (next === part.stock) {
+            toast('Stock cannot go below zero.');
+            return;
+          }
+
+          part.stock = next;
+          saveOps(ops);
+          recordAudit(staff, 'Stock adjusted', `${part.sku} ${part.name} ${delta > 0 ? '+' : ''}${delta} → ${next}`);
+          renderStats();
+          renderInventory();
+          toast(`${part.name}: ${next} in stock.`);
+        });
+
+        document.querySelectorAll('[data-dash-link]').forEach(link => {
+          link.addEventListener('click', () => {
+            document.querySelectorAll('[data-dash-link]').forEach(item => item.classList.remove('is-active'));
+            link.classList.add('is-active');
+          });
+        });
+
+        document.querySelector('[data-staff-logout]').addEventListener('click', () => {
+          staffLogout();
+          location.replace('staff-login.html');
+        });
+
+        renderAll();
+      }
+    </script>
+  </body>
+</html>

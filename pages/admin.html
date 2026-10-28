@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin dashboard — G Spot Automotive Center</title>
+    <meta name="description" content="Demo admin dashboard: accounts, audit trail and shop settings.">
+    <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/main.css">
+  </head>
+  <body class="dash-body" data-page="admin" data-base="../">
+    <div class="dash">
+      <aside class="dash-side">
+        <div class="dash-brand">
+          <span class="brand__mark" aria-hidden="true">G</span>
+          <div class="dash-brand__text">
+            <strong>G Spot</strong>
+            <span>Administration</span>
+          </div>
+        </div>
+
+        <nav class="dash-nav" aria-label="Admin sections">
+          <a href="#overview" class="is-active" data-dash-link>Overview</a>
+          <a href="#users" data-dash-link>Accounts</a>
+          <a href="#audit" data-dash-link>Audit log</a>
+          <a href="#settings" data-dash-link>Settings</a>
+        </nav>
+
+        <div class="dash-side__foot">
+          <div class="dash-user">
+            <strong data-staff-name>Loading…</strong>
+            <span>Admin · <span data-staff-email></span></span>
+          </div>
+          <div class="dash-side__links">
+            <a href="../index.html">Website</a>
+            <button type="button" data-staff-logout>Sign out</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="dash-main">
+        <header class="dash-top">
+          <div>
+            <p class="eyebrow">Administrator</p>
+            <h1>Shop control</h1>
+          </div>
+          <div class="dash-top__meta">
+            <span class="mono muted" id="today-label"></span>
+            <span class="badge badge--ok" id="shop-state">Bookings open</span>
+          </div>
+        </header>
+
+        <div class="dash-content">
+          <section class="stat-grid" id="overview" aria-label="Accounts at a glance">
+            <article class="stat stat--red">
+              <strong id="stat-users">0</strong>
+              <span>Total accounts</span>
+            </article>
+            <article class="stat">
+              <strong id="stat-customers">0</strong>
+              <span>Customers</span>
+            </article>
+            <article class="stat stat--blue">
+              <strong id="stat-staff">0</strong>
+              <span>Staff accounts</span>
+            </article>
+            <article class="stat stat--green">
+              <strong id="stat-active">0</strong>
+              <span>Active accounts</span>
+            </article>
+          </section>
+
+          <section class="card" id="users" aria-labelledby="users-title">
+            <div class="card__head">
+              <div>
+                <h2 id="users-title">Accounts</h2>
+                <p class="hint">Deactivating an account blocks that user's demo sign-in.</p>
+              </div>
+              <span class="badge badge--done" id="user-count">0 shown</span>
+            </div>
+            <div class="card__toolbar">
+              <input type="search" id="user-search" placeholder="Search name or email" aria-label="Search accounts">
+              <select id="role-filter" aria-label="Filter by role">
+                <option value="all">All roles</option>
+                <option value="Customer">Customers</option>
+                <option value="Manager">Managers</option>
+                <option value="Admin">Administrators</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Account</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="users-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card" id="audit" aria-labelledby="audit-title">
+            <div class="card__head">
+              <div>
+                <h2 id="audit-title">Audit log</h2>
+                <p class="hint">Every dashboard action in this browser, newest first.</p>
+              </div>
+              <span class="badge badge--done" id="audit-count">0 events</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>When</th>
+                    <th>Actor</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card" id="settings" aria-labelledby="settings-title">
+            <div class="card__head">
+              <div>
+                <h2 id="settings-title">Store settings</h2>
+                <p class="hint">These values feed the manager dashboard and the booking badge.</p>
+              </div>
+            </div>
+            <div class="card__body card__body--pad">
+              <form class="settings-form" id="settings-form" novalidate>
+                <div class="field">
+                  <label for="setting-shop">Shop name</label>
+                  <input id="setting-shop" name="shopName" type="text" required>
+                </div>
+                <div class="field">
+                  <label for="setting-threshold">Low-stock threshold (units)</label>
+                  <input id="setting-threshold" name="threshold" type="number" min="0" max="999" step="1" required>
+                  <p class="field__hint">Parts at or below this count are flagged in the manager inventory.</p>
+                </div>
+                <label class="check">
+                  <input type="checkbox" id="setting-booking">
+                  <span>Accept new bookings (shown as a status badge in both dashboards).</span>
+                </label>
+                <div class="settings-actions">
+                  <button type="submit" class="btn btn--primary btn--sm">Save settings</button>
+                  <button type="reset" class="btn btn--quiet btn--sm">Undo changes</button>
+                </div>
+              </form>
+
+              <div class="settings-note" style="margin-top:18px">
+                Resetting clears every demo account, booking, stock change and session from this
+                browser, then restores the original sample data.
+              </div>
+              <div class="settings-actions" style="margin-top:12px">
+                <button type="button" class="btn btn--danger btn--sm" id="reset-demo">Reset all demo data</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+      <p style="padding:16px;background:#fff3cd;color:#513c06;font:14px system-ui">
+        This dashboard needs JavaScript. Enable it and open
+        <strong>pages/staff-login.html</strong> with the VS Code <strong>Live Server</strong> extension.
+      </p>
+    </noscript>
+
+    <script type="module" src="../js/navigation.js"></script>
+    <script type="module">
+      import { loadUsers, resetDemoUsers, saveUsers } from '../js/auth.js';
+      import {
+        loadOps,
+        recordAudit,
+        requireStaff,
+        resetDemoOps,
+        saveOps,
+        staffLogout
+      } from '../js/staff-auth.js';
+      import { escapeHtml, formatDateTime, toast } from '../js/navigation.js';
+
+      const ROLE_BADGE = {
+        Customer: 'customer',
+        Manager: 'manager',
+        Admin: 'admin'
+      };
+
+      const session = requireStaff('Admin');
+
+      if (session) {
+        start(session);
+      }
+
+      function start(staff) {
+        document.body.classList.add('is-authed');
+
+        document.querySelectorAll('[data-staff-name]').forEach(node => {
+          node.textContent = staff.name;
+        });
+        document.querySelectorAll('[data-staff-email]').forEach(node => {
+          node.textContent = staff.email;
+        });
+        document.getElementById('today-label').textContent = new Date().toLocaleDateString('en-PH', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
+        });
+
+        let roleFilter = 'all';
+        let searchTerm = '';
+
+        const usersBody = document.getElementById('users-body');
+        const auditBody = document.getElementById('audit-body');
+        const settingsForm = document.getElementById('settings-form');
+
+        const formatDate = iso =>
+          new Date(iso).toLocaleDateString('en-PH', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          });
+
+        function renderStats() {
+          const users = loadUsers();
+          const staffCount = users.filter(user => user.role === 'Manager' || user.role === 'Admin').length;
+
+          document.getElementById('stat-users').textContent = users.length;
+          document.getElementById('stat-customers').textContent = users.filter(user => user.role === 'Customer').length;
+          document.getElementById('stat-staff').textContent = staffCount;
+          document.getElementById('stat-active').textContent = users.filter(user => user.active).length;
+        }
+
+        function renderUsers() {
+          const users = loadUsers();
+          const visible = users.filter(user => {
+            const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+            const haystack = `${user.name} ${user.email}`.toLowerCase();
+            return matchesRole && haystack.includes(searchTerm);
+          });
+
+          document.getElementById('user-count').textContent = `${visible.length} shown`;
+
+          if (!visible.length) {
+            usersBody.innerHTML =
+              '<tr><td colspan="5"><div class="empty">No accounts match those filters.</div></td></tr>';
+            return;
+          }
+
+          usersBody.innerHTML = visible
+            .map(user => {
+              const isSelf = user.id === staff.userId;
+              const action = isSelf
+                ? '<span class="cell-sub">Current session</span>'
+                : `<button type="button" class="btn btn--quiet btn--sm" data-toggle-user="${user.id}">
+                     ${user.active ? 'Deactivate' : 'Activate'}
+                   </button>`;
+
+              return `
+                <tr>
+                  <td>
+                    <div class="cell-title">${escapeHtml(user.name)}</div>
+                    <div class="cell-sub">${escapeHtml(user.email)}</div>
+                  </td>
+                  <td><span class="badge badge--${ROLE_BADGE[user.role] || 'customer'}">${escapeHtml(user.role)}</span></td>
+                  <td>
+                    <span class="badge badge--${user.active ? 'ok' : 'off'}">
+                      ${user.active ? 'Active' : 'Inactive'}
+                    </span>
+                  </td>
+                  <td class="cell-sub">${formatDate(user.createdAt)}</td>
+                  <td><div class="row-actions">${action}</div></td>
+                </tr>`;
+            })
+            .join('');
+        }
+
+        function renderAudit() {
+          const { audit } = loadOps();
+          document.getElementById('audit-count').textContent =
+            `${audit.length} ${audit.length === 1 ? 'event' : 'events'}`;
+
+          if (!audit.length) {
+            auditBody.innerHTML =
+              '<tr><td colspan="4"><div class="empty">No activity recorded yet.</div></td></tr>';
+            return;
+          }
+
+          auditBody.innerHTML = audit
+            .slice(0, 12)
+            .map(
+              entry => `
+                <tr>
+                  <td class="cell-sub">${formatDateTime(entry.at)}</td>
+                  <td>
+                    <div class="cell-title">${escapeHtml(entry.actor.name)}</div>
+                    <div class="cell-sub">${escapeHtml(entry.actor.role)}</div>
+                  </td>
+                  <td>${escapeHtml(entry.action)}</td>
+                  <td class="cell-sub">${escapeHtml(entry.details)}</td>
+                </tr>`
+            )
+            .join('');
+        }
+
+        function renderSettings() {
+          const { settings } = loadOps();
+          document.getElementById('setting-shop').value = settings.shopName;
+          document.getElementById('setting-threshold').value = settings.lowStockThreshold;
+          document.getElementById('setting-booking').checked = Boolean(settings.bookingOpen);
+
+          const state = document.getElementById('shop-state');
+          state.textContent = settings.bookingOpen ? 'Bookings open' : 'Bookings paused';
+          state.className = `badge ${settings.bookingOpen ? 'badge--ok' : 'badge--off'}`;
+        }
+
+        function renderAll() {
+          renderStats();
+          renderUsers();
+          renderAudit();
+          renderSettings();
+        }
+
+        document.getElementById('user-search').addEventListener('input', event => {
+          searchTerm = event.target.value.trim().toLowerCase();
+          renderUsers();
+        });
+
+        document.getElementById('role-filter').addEventListener('change', event => {
+          roleFilter = event.target.value;
+          renderUsers();
+        });
+
+        usersBody.addEventListener('click', event => {
+          const button = event.target.closest('[data-toggle-user]');
+          if (!button) return;
+
+          const users = loadUsers();
+          const user = users.find(item => item.id === button.dataset.toggleUser);
+          if (!user || user.id === staff.userId) return;
+
+          user.active = !user.active;
+          saveUsers(users);
+          recordAudit(
+            staff,
+            user.active ? 'Account activated' : 'Account deactivated',
+            `${user.role} ${user.name} (${user.email})`
+          );
+          renderAll();
+          toast(`${user.name} is now ${user.active ? 'active' : 'inactive'}.`, user.active ? 'success' : 'default');
+        });
+
+        settingsForm.addEventListener('submit', event => {
+          event.preventDefault();
+
+          const shopName = document.getElementById('setting-shop').value.trim();
+          const threshold = Number(document.getElementById('setting-threshold').value);
+          const bookingOpen = document.getElementById('setting-booking').checked;
+
+          if (shopName.length < 2) {
+            toast('Enter a shop name.');
+            return;
+          }
+          if (!Number.isInteger(threshold) || threshold < 0 || threshold > 999) {
+            toast('Use a whole-number threshold between 0 and 999.');
+            return;
+          }
+
+          const ops = loadOps();
+          ops.settings = { ...ops.settings, shopName, lowStockThreshold: threshold, bookingOpen };
+          saveOps(ops);
+          recordAudit(
+            staff,
+            'Settings updated',
+            `${shopName} · threshold ${threshold} · bookings ${bookingOpen ? 'open' : 'paused'}`
+          );
+          renderAll();
+          toast('Store settings saved.', 'success');
+        });
+
+        settingsForm.addEventListener('reset', () => {
+          setTimeout(renderSettings, 0);
+        });
+
+        document.getElementById('reset-demo').addEventListener('click', () => {
+          const confirmed = window.confirm(
+            'Reset every demo account, booking, stock change and session in this browser?'
+          );
+          if (!confirmed) return;
+          resetDemoUsers();
+          resetDemoOps();
+          location.replace('staff-login.html');
+        });
+
+        document.querySelectorAll('[data-dash-link]').forEach(link => {
+          link.addEventListener('click', () => {
+            document.querySelectorAll('[data-dash-link]').forEach(item => item.classList.remove('is-active'));
+            link.classList.add('is-active');
+          });
+        });
+
+        document.querySelector('[data-staff-logout]').addEventListener('click', () => {
+          staffLogout();
+          location.replace('staff-login.html');
+        });
+
+        renderAll();
+      }
+    </script>
+  </body>
+</html>

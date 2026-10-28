@@ -1,504 +1,236 @@
-<<<<<<< HEAD
-# G Spot Automotive Center
-=======
-<<<<<<< HEAD
 # G Spot Automotive Center
 
-Multi-role automotive service and parts ordering UI: a customer kiosk, a manager portal,
-and an admin portal, sharing one design system and one local demo data layer.
+A static, frontend-only website for a Metro Manila auto service shop: a landing page,
+customer account flows, a parts-and-service shop with booking and pickup cart, staff
+sign-in, and working Manager and Admin demo dashboards. All data stays in the browser.
+There is no API, database, or payment processor, and parts orders are **pickup only** —
+there is no shipping or delivery.
 
-This build is **frontend only**. There is no API, database, or payment processor. See
-[Mock vs live](#mock-vs-live) for exactly what is real inside the browser.
+## Pages
 
-## Portals
-
-| Portal | Entry page | Audience |
+| Page | Entry | Audience |
 | --- | --- | --- |
-| Portal selection | `src/frontend/index.html` | Landing switch between customer and staff |
-| Customer | `src/frontend/customer-ui/public/index.html` | Public storefront and kiosk |
-| Manager | `src/frontend/manager-ui/public/index.html` | Manager and Admin accounts |
-| Admin | `src/frontend/admin-ui/public/index.html` | Admin accounts only |
+| Home | `index.html` | Public landing page with links to every flow |
+| Customer login | `pages/customer-login.html` | Demo customers |
+| Create account | `pages/register.html` | New demo customers |
+| Forgot password | `pages/forgot-password.html` | Simulated reset, no email sent |
+| Customer shop | `pages/shop.html` | Services, parts, booking, cart and orders |
+| Staff sign-in | `pages/staff-login.html` | Manager and Admin demo accounts |
+| Manager dashboard | `pages/manager.html` | Booking queue, stock, shop status |
+| Admin dashboard | `pages/admin.html` | Accounts, audit trail, settings |
 
-## Quick start
+The staff sign-in page routes by role: Managers land on `manager.html`, Admins on
+`admin.html`. Opening a dashboard without a matching session redirects to sign-in.
+Customers sign in through the customer pages and land in the shop; opening the shop
+without a customer session redirects to customer sign-in.
 
-### Option 1 — local Node server (recommended)
+## Quick start with VS Code Live Server
 
-Requires Node.js 18 or newer.
+The pages are static, but they use ES modules, so they must be opened over HTTP. Use the
+**Live Server** extension by Ritwick Dey; no batch file or Node server is needed.
 
-```bash
-npm run dev
-```
+1. Install **Live Server** (`ritwickdey.LiveServer`) from the VS Code Extensions view.
+   This workspace recommends it in `.vscode/extensions.json`.
+2. Open the `Gspot` folder as the VS Code workspace, not just a single file.
+3. In the Explorer, right-click the entry page for the interface you want and choose
+   **Open with Live Server**. The page opens at `http://127.0.0.1:5500/...` in your
+   default browser; Edge and Brave both work.
 
-Then open:
+### Entry points
 
-- Portal selection — <http://localhost:5178/src/frontend/>
-- Customer kiosk — <http://localhost:5178/src/frontend/customer-ui/public/>
-- Manager portal — <http://localhost:5178/src/frontend/manager-ui/public/>
-- Admin portal — <http://localhost:5178/src/frontend/admin-ui/public/>
+| Interface | Right-click this file → Open with Live Server | Notes |
+| --- | --- | --- |
+| Current customer site | `index.html` | Home page with links to sign-in and the shop |
+| Current shop | `pages/customer-login.html` or `pages/shop.html` | The shop redirects to customer sign-in without a session |
+| Current Manager portal | `pages/staff-login.html` → `pages/manager.html` | Sign in with a Manager demo account |
+| Current Admin portal | `pages/staff-login.html` → `pages/admin.html` | Sign in with the Admin demo account |
+| Earlier customer interface | `src/frontend/customer-ui/public/index.html` | Preserved storefront with its own legacy demo data |
+| Earlier Manager interface | `src/frontend/manager-ui/public/index.html` | Shows its own staff sign-in when signed out |
+| Earlier Admin interface | `src/frontend/admin-ui/public/index.html` | Shows its own staff sign-in when signed out |
 
-`PORT=8080 npm run dev` changes the port. The server serves the repository root with
-no caching, so relative asset and module paths resolve the same way they would on a
-static host.
-
-### Option 2 — VS Code Live Server
-
-1. Open the repository root in VS Code (`File → Open Folder`).
-2. Install the **Live Server** extension if needed.
-3. Right-click `src/frontend/index.html` and choose **Open with Live Server**.
-4. Use the links on the landing page to reach each portal.
-
-The manager and admin portals are ES-module apps, so they must be served over HTTP.
-Opening their `index.html` directly from disk will not run the scripts. The customer
-kiosk uses classic scripts and can also be opened directly.
+**Ports and sessions:** with the project root open as one workspace, Live Server serves
+every entry from the same port (5500 by default), so customer and staff pages can be open
+side by side at different paths. A second VS Code window or workspace will be offered
+another port. `localStorage` is scoped to the origin **and** port, so use the same origin
+when you want the current shop and dashboards to share demo data.
 
 ## Demo accounts
 
-| Name | Staff ID | Email | Password | Role |
-| --- | --- | --- | --- | --- |
-| Admin | `admin` | `admin@gspot.com` | `admin0000` | Admin |
-| Sarah Chen | `sarah.chen` | `sarah.chen@gspot.com` | `sarah2345` | Manager |
-| Ana Martinez | `ana.martinez` | `ana.martinez@gspot.com` | `ana4567` | Manager |
-| Marco Reyes | `marco.reyes` | `marco.reyes@gspot.com` | `marco8899` | Manager |
+Everything below is sample data. Passwords are stored in plain text in `localStorage`
+for the demo, and the sign-in pages display the credentials on purpose.
 
-The manager and admin login screens list these accounts and can fill the form for you.
-The customer kiosk keeps its own demo customer login; staff credentials do not sign in
-as customers and customer accounts cannot enter the staff portals.
+### Customers
+
+| Name | Email | Password |
+| --- | --- | --- |
+| Maria Santos | `maria.santos@example.com` | `demo1234` |
+| James Kowalski | `james.kowalski@example.com` | `demo1234` |
+| Priya Nair | `priya.nair@example.com` | `demo1234` |
+| Carlos Reyes | `carlos.reyes@example.com` | `demo1234` |
+
+### Staff
+
+| Name | Email | Password | Role |
+| --- | --- | --- | --- |
+| Sarah Chen | `sarah.chen@gspotauto.ph` | `manager123` | Manager |
+| Marco Reyes | `marco.reyes@gspotauto.ph` | `manager123` | Manager |
+| Ana Villanueva | `admin@gspotauto.ph` | `admin123` | Admin |
+
+Staff credentials cannot sign in as customers, and customer accounts cannot open either
+dashboard. These checks run in the browser and are not real security.
 
 ## What works
 
-### Customer portal
+### Home
 
-- Existing kiosk storefront: 36 parts, 20 services, category shortcuts, search, cart badge,
-  service booking with vehicle details, parts checkout with installation add-on, payment
-  modal (card, Dragonpay, discount card preview), purchase history and profile screens.
-- Customer login is the default view in the account modal. **Manager & Staff Login →**
-  switches the modal to the manager view; **← Back to Customer Login** returns.
-- The manager view hides customer registration and social sign-in, and links to the full
-  staff portal.
-- A **Portal switch →** chip at the bottom-right returns to the landing page.
-- Back navigation preserves cart and checkout drafts, as in the original demo.
+- Hero with customer sign-in and account-creation links.
+- Access cards for customer, manager, and admin entry.
+- Demo notice, shop details, and the shared header/footer injected by `js/navigation.js`.
 
-### Manager portal
+### Customer flows
 
-- **Dashboard** — today's bookings, open tickets, low-stock alerts, collected revenue,
-  latest tickets.
-- **Ticket & Order Queue** — status filters, full ticket inspection, customer and vehicle
-  details, work items, additional issue/fee quotes, status updates.
-  Quotes affect the final billed total only after they are marked approved.
-- **Catalog & Inventory** — search, stock adjustments, price/stock/visibility editing.
-- **Services** — price, duration, description, and bookability editing.
-- **Reports** — revenue, quotes awaiting approval, inventory value, ticket status mix.
+- **Login** validates email and password, starts a session, and opens the shop.
+- **Register** validates name, email, phone (10+ digits), password length, matching
+  confirmation, and duplicate email, then signs the new customer in and opens the shop.
+- **Forgot password** simulates a reset request and shows the address it would email.
+- Signing out clears the customer session.
 
-Statuses: Pending → Confirmed → In Service → Ready for Pickup → Completed, plus Cancelled.
+### Customer shop
 
-### Admin portal
+- **Services** — 20 services with photos, durations and prices, matching the earlier
+  storefront. **Book** preselects the service and opens the booking form.
+- **Book service** — service, vehicle and plate, date from today onward, a 30-minute
+  time slot, contact number and notes. The request is written to the manager queue as a
+  Pending booking.
+- **Parts** — 36 parts with search and category filter. Add to cart is limited by the
+  manager's current stock count.
+- **Cart and pickup** — quantity controls, a pickup date and time, phone and optional
+  note. Placing the order creates a Pending Parts order in the queue and reserves
+  (deducts) the stock. There is no payment or delivery step; pay at the counter.
+- **My orders** — this account's service bookings and parts orders with live statuses
+  from the manager queue. Seeded demo bookings are matched by name when they have no
+  email attached.
+- **Pickup pass** — a QR pass opens automatically after a booking or parts checkout and
+  stays available from **My orders**. It encodes the booking number, customer, vehicle,
+  items or appointment, total and status, and is generated offline. Show it at the
+  counter; it is a demo reference, not a payment receipt.
+- If an Admin pauses bookings under **Settings**, new bookings, part reservations and
+  checkout are disabled until it is switched back on.
 
-- **System Analytics** — revenue, average ticket, open tickets, catalog size, ticket
-  pipeline, revenue mix, inventory value, recent system activity.
-- **User & Staff Management** — create staff accounts, change Manager/Admin roles,
-  suspend or reactivate accounts. The current admin cannot demote or suspend themselves.
-- **Master Catalog** — combined parts and services view with search and the same editors.
-- **Audit Trail** — every store mutation with actor, action, entity, and details.
-- **System Settings** — shop name, currency, tax rate, low-stock threshold, booking pause
-  switch, and a full demo-data reset.
+### Staff sign-in
+
+- One interface for Managers and Admins.
+- Accepts work email and password, checks the role and active flag, routes to the
+  matching dashboard, and warns that browser-side checks are not secure.
+- Signing out of a dashboard returns to this page.
+
+### Manager dashboard
+
+- Overview stats: open bookings, in service, ready for pickup, and low-stock items.
+- **Queue** filters by status and advances bookings: Pending → In service → Ready →
+  Picked up. Each change is written to the audit trail.
+- **Inventory** lists all 36 parts and adjusts stock with −/+ controls. Items at or
+  below the low-stock threshold are flagged, and stats update immediately. These counts
+  drive the customer shop, so bookings and cart reservations show up here.
+- **QR** on any queue row opens the same pickup pass the customer sees, so staff can
+  match or scan it at collection.
+- The queue, stats and inventory refresh automatically when a customer books or checks
+  out in another tab of the same browser.
+
+### Admin dashboard
+
+- Account counts for customers, staff, and active accounts.
+- **Accounts** search and role filter, plus activate/deactivate. Admins cannot
+  deactivate their own account.
+- **Audit trail** shows the latest 50 actions with actor, role, time, and details,
+  including Manager actions from the same browser.
+- **Settings** edits shop name, low-stock threshold, and the booking-open switch.
+- **Reset demo data** clears customer accounts, bookings, inventory, audit, and sessions,
+  then reloads the seeded demo data on the next sign-in.
 
 ## Project structure
 
 ```text
-Gspot_Gaming/
-├─ src/frontend/
-│  ├─ index.html                     Portal selection landing page
-│  ├─ customer-ui/
-│  │  ├─ public/index.html           Kiosk entry
-│  │  └─ src/
-│  │     ├─ css/profile.css
-│  │     └─ js/                      Compiled kiosk app + legacy demo scripts
-│  ├─ manager-ui/
-│  │  ├─ public/index.html           Manager entry
-│  │  ├─ package.json
-│  │  └─ src/
-│  │     ├─ main.js                  Session gate + hash router
-│  │     ├─ pages/                   dashboard, queue, inventory, services, reports
-│  │     ├─ components/ticket-modal.js
-│  │     └─ services/manager-service.js
-│  ├─ admin-ui/
-│  │  ├─ public/index.html           Admin entry
-│  │  ├─ package.json
-│  │  └─ src/
-│  │     ├─ main.js
-│  │     ├─ pages/                   dashboard, users, catalog, audit, settings
-│  │     ├─ components/staff-editor.js
-│  │     └─ services/admin-service.js
-│  └─ shared/
-│     ├─ assets/images/              38 catalog and brand images
-│     ├─ assets/fonts/               14 local webfonts
-│     ├─ api/README.md               Placeholder for future API clients
-│     ├─ components/                 Shell, login, modal, toast, catalog editors
-│     ├─ js/                         store, formatting, DOM helpers
-│     └─ styles/
-│        ├─ styles.css               Original compiled kiosk stylesheet
-│        └─ app.css                  Staff/portal design system
-├─ tools/serve.mjs                   Dependency-free static server
-├─ docs/
-│  ├─ architecture.md                Structure, routes, migration, API conventions
-│  └─ legacy/supabase/               Previous optional Supabase setup (inactive)
-├─ package.json
-└─ README.md
+Gspot/
+├─ index.html                        Home / landing page
+├─ pages/
+│  ├─ customer-login.html
+│  ├─ register.html
+│  ├─ forgot-password.html
+│  ├─ shop.html
+│  ├─ staff-login.html
+│  ├─ manager.html
+│  └─ admin.html
+├─ css/
+│  ├─ main.css                       Shared tokens, chrome, forms, dashboard styles
+│  └─ pages/
+│     ├─ customer-login.css
+│     ├─ shop.css
+│     └─ staff-login.css
+├─ js/
+│  ├─ navigation.js                  Header/footer, mobile menu, toasts, helpers
+│  ├─ auth.js                        Customer accounts and session
+│  ├─ shop.js                        Services, parts, bookings, cart and orders
+│  ├─ qr.js                          Pickup-pass payload and QR SVG rendering
+│  ├─ vendor/qrcode.js               qrcode-generator 1.4.4 (MIT), offline
+│  └─ staff-auth.js                  Staff session, role guards, ops data, audit
+├─ data/
+│  ├─ catalog.js                     20 services and 36 parts with images and prices
+│  └─ sample-users.js                Seeded accounts, bookings, inventory, audit, settings
+├─ assets/
+│  ├─ images/                        Catalog, workshop and service-bay photos
+│  ├─ icons/                         Favicon
+│  └─ fonts/                         Local Barlow, Outfit, and JetBrains Mono files
+├─ .vscode/
+│  ├─ extensions.json                Recommends the Live Server extension
+│  └─ settings.json                  Live Server host and port
+├─ src/frontend/                     Earlier multi-portal build, preserved for reference
+├─ docs/                             Earlier architecture notes and legacy Supabase setup
+└─ package.json
 ```
 
 ## Local demo data
 
-The staff portals share one versioned state in `localStorage`:
+`localStorage` keys, all versioned:
 
-- `gspot:demo:v2` — settings, staff, parts, services, tickets, audit log
-- `gspot:session` — signed-in staff member
+- `gspot.users.v1` — customer and staff accounts
+- `gspot.session.v1` — customer session
+- `gspot.staff.v1` — staff session
+- `gspot.cart.v1` — the signed-in customer's pickup cart
+- `gspot.ops.v2` — bookings, inventory, audit trail, and settings
 
-Every mutation writes an audit entry and broadcasts a `gspot:store-changed` event, so
-manager and admin screens stay consistent across tabs. Reset everything from
-**Admin → System Settings → Reset demo data**.
+The seeded content is 7 accounts, 9 bookings, 36 inventory items, 5 audit entries, and
+the default settings in `data/sample-users.js`. Reset everything from
+**Admin → Reset demo data**; this also clears the cart.
 
-Seeded content: 36 parts, 20 services, 4 tickets, 4 staff accounts, and 3 audit entries.
-The staff catalog mirrors the customer kiosk's 36/20 demo catalog.
-
-The compiled customer kiosk keeps its own legacy demo state (customer accounts, cart,
-orders). It is **not** connected to the staff store, so staff catalog or ticket changes
-do not appear in the kiosk until the storefront is wired to the shared data layer.
-
-## Publishing to GitHub
-
-The repository root is already a Git repository. To publish a copy:
-
-```bash
-git add .
-git commit -m "Restructure G Spot into customer, manager, and admin portals"
-git branch -M main
-git remote add origin https://github.com/<your-account>/<your-repo>.git
-git push -u origin main
-```
-
-Do not commit secrets. This build has no `.env` file and no real credentials; the demo
-passwords in `shared/js/store.js` are sample data only and must be replaced when a
-backend is added. GitHub Pages can host the site because every path is relative — publish
-from the repository root and open `/src/frontend/` in the deployed URL.
-
-## Database connection guide (future)
-
-There is no database in this build. The staff store is `localStorage`, seeded from
-`shared/js/store.js`; the customer kiosk keeps its own legacy demo state.
-
-When a backend is added (MySQL + Node/PHP, or Supabase/Postgres):
-
-1. Create a `database/` folder with versioned SQL migrations and a seed script.
-2. Mirror the collections in `store.js`: staff, parts, services, tickets, ticket quotes,
-   audit logs, and settings. Derive totals instead of storing them.
-3. Put the connection string in the server environment, for example
-   `DATABASE_URL=mysql://user:password@host:3306/gspot` or Supabase project URL plus a
-   **service-role key kept only on the server**.
-4. Hash passwords with bcrypt/argon2 and enforce unique staff email and staff ID.
-5. Validate price, stock, discount, and quote amounts on the server for every order.
-6. Replace the store with API clients under `shared/api/`, following
-   [docs/architecture.md](docs/architecture.md#8-proposed-backend-contract-not-implemented).
-
-Never place a database password or service-role key in frontend JavaScript.
+The older `src/frontend/` interfaces keep their own independent demo state and are not
+linked from the current pages above. `src/frontend/index.html` now redirects to the current
+home page; open the preserved pages by their own URLs (see Entry points) if you need them.
 
 ## Mock vs live
 
 | Area | Status | Notes |
 | --- | --- | --- |
-| Storefront browsing, cart, booking forms | Live (local) | Runs entirely in the browser |
-| Staff role gates | UX only | Enforced in UI and `store.js`, not security |
-| Staff sessions | Mock | `localStorage`, no password hashing |
-| Ticket, quote, stock, catalog, staff edits | Live (local) | Persist in this browser and feed the audit log |
-| Payments | Mock | No gateway, no card data leaves the page |
-| Photo upload | Mock | Catalog images are bundled files in `shared/assets` |
-| Supabase connector | Inactive | Legacy scripts remain; no project is configured |
-| Backend API / database | Not included | Endpoint conventions are documented for a later build |
+| Preview server | Live Server | Serves static HTML/CSS/JS; adds no API, database, auth or payment processing |
+| Sign-in, registration, sessions | Mock | Browser `localStorage`, plain-text demo passwords |
+| Role checks and redirects | UX only | Not secure; anyone can edit browser state |
+| Service bookings and parts carts | Live (local) | Write queue records and reserve stock in this browser |
+| Booking status, stock, accounts, settings | Live (local) | Persist in this browser and feed the audit trail |
+| Pickup-pass QR codes | Live (local) | Generated in the browser by the bundled encoder; encodes demo order data |
+| Password reset | Mock | Shows a confirmation panel; sends no email |
+| Payments and delivery | Not included | Pickup only, no payment flow |
+| Backend API / database | Not included | Not planned in this build |
 
-Client-side authorization is never sufficient for production. Before going live, add
-server-side sessions or JWT roles, bcrypt password hashing, server-validated prices and
-stock, and secret management.
-
-## Design system
-
-- Red: `#E60000` primary, `#C80000` hover/dark
-- Black: `#111111`, `#1A1A1A`
-- Neutrals: `#f7f7f5` page, `#e2e2df` lines, `#666662` muted text
-- White surfaces with square corners, condensed headings, mono labels
-- Status tones: amber (pending), blue (confirmed/in service), green (ready), gray
-  (completed), red (cancelled)
-
-## Documentation
-
-- [docs/architecture.md](docs/architecture.md) — directory map, migration table, portal
-  routes, data model, and proposed API naming conventions.
-- [docs/legacy/supabase/SETUP.md](docs/legacy/supabase/SETUP.md) — the earlier optional
-  Supabase configuration. Not required by this build.
-
-## Source limitations
-
-`customer-ui/src/js/app.js` is the supplied **compiled** React bundle, not original JSX.
-Component-level changes there are made by editing the compiled calls (the manager login
-view and portal link were added this way). The manager and admin portals are new,
-dependency-free ES-module applications built against the shared layer, so they remain
-readable and editable without a build step.
-
-Sample prices and stock are illustrative. Confirm fitment, pricing, and tax rules before
-any real use.
-=======
-# Gspot_Gaming
-Gspot 2.3
->>>>>>> 34971eae263dafa8fed6553c7718dba9f9d89e38
-
-Multi-role automotive service and parts ordering UI: a customer kiosk, a manager portal,
-and an admin portal, sharing one design system and one local demo data layer.
-
-This build is **frontend only**. There is no API, database, or payment processor. See
-[Mock vs live](#mock-vs-live) for exactly what is real inside the browser.
-
-## Portals
-
-| Portal | Entry page | Audience |
-| --- | --- | --- |
-| Portal selection | `src/frontend/index.html` | Landing switch between customer and staff |
-| Customer | `src/frontend/customer-ui/public/index.html` | Public storefront and kiosk |
-| Manager | `src/frontend/manager-ui/public/index.html` | Manager and Admin accounts |
-| Admin | `src/frontend/admin-ui/public/index.html` | Admin accounts only |
-
-## Quick start
-
-### Option 1 — local Node server (recommended)
-
-Requires Node.js 18 or newer.
-
-```bash
-npm run dev
-```
-
-Then open:
-
-- Portal selection — <http://localhost:5178/src/frontend/>
-- Customer kiosk — <http://localhost:5178/src/frontend/customer-ui/public/>
-- Manager portal — <http://localhost:5178/src/frontend/manager-ui/public/>
-- Admin portal — <http://localhost:5178/src/frontend/admin-ui/public/>
-
-`PORT=8080 npm run dev` changes the port. The server serves the repository root with
-no caching, so relative asset and module paths resolve the same way they would on a
-static host.
-
-### Option 2 — VS Code Live Server
-
-1. Open the repository root in VS Code (`File → Open Folder`).
-2. Install the **Live Server** extension if needed.
-3. Right-click `src/frontend/index.html` and choose **Open with Live Server**.
-4. Use the links on the landing page to reach each portal.
-
-The manager and admin portals are ES-module apps, so they must be served over HTTP.
-Opening their `index.html` directly from disk will not run the scripts. The customer
-kiosk uses classic scripts and can also be opened directly.
-
-## Demo accounts
-
-| Name | Staff ID | Email | Password | Role |
-| --- | --- | --- | --- | --- |
-| Admin | `admin` | `admin@gspot.com` | `admin0000` | Admin |
-| Sarah Chen | `sarah.chen` | `sarah.chen@gspot.com` | `sarah2345` | Manager |
-| Ana Martinez | `ana.martinez` | `ana.martinez@gspot.com` | `ana4567` | Manager |
-| Marco Reyes | `marco.reyes` | `marco.reyes@gspot.com` | `marco8899` | Manager |
-
-The manager and admin login screens list these accounts and can fill the form for you.
-The customer kiosk keeps its own demo customer login; staff credentials do not sign in
-as customers and customer accounts cannot enter the staff portals.
-
-## What works
-
-### Customer portal
-
-- Existing kiosk storefront: 36 parts, 20 services, category shortcuts, search, cart badge,
-  service booking with vehicle details, parts checkout with installation add-on, payment
-  modal (card, Dragonpay, discount card preview), purchase history and profile screens.
-- Customer login is the default view in the account modal. **Manager & Staff Login →**
-  switches the modal to the manager view; **← Back to Customer Login** returns.
-- The manager view hides customer registration and social sign-in, and links to the full
-  staff portal.
-- A **Portal switch →** chip at the bottom-right returns to the landing page.
-- Back navigation preserves cart and checkout drafts, as in the original demo.
-
-### Manager portal
-
-- **Dashboard** — today's bookings, open tickets, low-stock alerts, collected revenue,
-  latest tickets.
-- **Ticket & Order Queue** — status filters, full ticket inspection, customer and vehicle
-  details, work items, additional issue/fee quotes, status updates.
-  Quotes affect the final billed total only after they are marked approved.
-- **Catalog & Inventory** — search, stock adjustments, price/stock/visibility editing.
-- **Services** — price, duration, description, and bookability editing.
-- **Reports** — revenue, quotes awaiting approval, inventory value, ticket status mix.
-
-Statuses: Pending → Confirmed → In Service → Ready for Pickup → Completed, plus Cancelled.
-
-### Admin portal
-
-- **System Analytics** — revenue, average ticket, open tickets, catalog size, ticket
-  pipeline, revenue mix, inventory value, recent system activity.
-- **User & Staff Management** — create staff accounts, change Manager/Admin roles,
-  suspend or reactivate accounts. The current admin cannot demote or suspend themselves.
-- **Master Catalog** — combined parts and services view with search and the same editors.
-- **Audit Trail** — every store mutation with actor, action, entity, and details.
-- **System Settings** — shop name, currency, tax rate, low-stock threshold, booking pause
-  switch, and a full demo-data reset.
-
-## Project structure
-
-```text
-Gspot_Gaming/
-├─ src/frontend/
-│  ├─ index.html                     Portal selection landing page
-│  ├─ customer-ui/
-│  │  ├─ public/index.html           Kiosk entry
-│  │  └─ src/
-│  │     ├─ css/profile.css
-│  │     └─ js/                      Compiled kiosk app + legacy demo scripts
-│  ├─ manager-ui/
-│  │  ├─ public/index.html           Manager entry
-│  │  ├─ package.json
-│  │  └─ src/
-│  │     ├─ main.js                  Session gate + hash router
-│  │     ├─ pages/                   dashboard, queue, inventory, services, reports
-│  │     ├─ components/ticket-modal.js
-│  │     └─ services/manager-service.js
-│  ├─ admin-ui/
-│  │  ├─ public/index.html           Admin entry
-│  │  ├─ package.json
-│  │  └─ src/
-│  │     ├─ main.js
-│  │     ├─ pages/                   dashboard, users, catalog, audit, settings
-│  │     ├─ components/staff-editor.js
-│  │     └─ services/admin-service.js
-│  └─ shared/
-│     ├─ assets/images/              38 catalog and brand images
-│     ├─ assets/fonts/               14 local webfonts
-│     ├─ api/README.md               Placeholder for future API clients
-│     ├─ components/                 Shell, login, modal, toast, catalog editors
-│     ├─ js/                         store, formatting, DOM helpers
-│     └─ styles/
-│        ├─ styles.css               Original compiled kiosk stylesheet
-│        └─ app.css                  Staff/portal design system
-├─ tools/serve.mjs                   Dependency-free static server
-├─ docs/
-│  ├─ architecture.md                Structure, routes, migration, API conventions
-│  └─ legacy/supabase/               Previous optional Supabase setup (inactive)
-├─ package.json
-└─ README.md
-```
-
-## Local demo data
-
-The staff portals share one versioned state in `localStorage`:
-
-- `gspot:demo:v2` — settings, staff, parts, services, tickets, audit log
-- `gspot:session` — signed-in staff member
-
-Every mutation writes an audit entry and broadcasts a `gspot:store-changed` event, so
-manager and admin screens stay consistent across tabs. Reset everything from
-**Admin → System Settings → Reset demo data**.
-
-Seeded content: 36 parts, 20 services, 4 tickets, 4 staff accounts, and 3 audit entries.
-The staff catalog mirrors the customer kiosk's 36/20 demo catalog.
-
-The compiled customer kiosk keeps its own legacy demo state (customer accounts, cart,
-orders). It is **not** connected to the staff store, so staff catalog or ticket changes
-do not appear in the kiosk until the storefront is wired to the shared data layer.
-
-## Publishing to GitHub
-
-The repository root is already a Git repository. To publish a copy:
-
-```bash
-git add .
-git commit -m "Restructure G Spot into customer, manager, and admin portals"
-git branch -M main
-git remote add origin https://github.com/<your-account>/<your-repo>.git
-git push -u origin main
-```
-
-Do not commit secrets. This build has no `.env` file and no real credentials; the demo
-passwords in `shared/js/store.js` are sample data only and must be replaced when a
-backend is added. GitHub Pages can host the site because every path is relative — publish
-from the repository root and open `/src/frontend/` in the deployed URL.
-
-## Database connection guide (future)
-
-There is no database in this build. The staff store is `localStorage`, seeded from
-`shared/js/store.js`; the customer kiosk keeps its own legacy demo state.
-
-When a backend is added (MySQL + Node/PHP, or Supabase/Postgres):
-
-1. Create a `database/` folder with versioned SQL migrations and a seed script.
-2. Mirror the collections in `store.js`: staff, parts, services, tickets, ticket quotes,
-   audit logs, and settings. Derive totals instead of storing them.
-3. Put the connection string in the server environment, for example
-   `DATABASE_URL=mysql://user:password@host:3306/gspot` or Supabase project URL plus a
-   **service-role key kept only on the server**.
-4. Hash passwords with bcrypt/argon2 and enforce unique staff email and staff ID.
-5. Validate price, stock, discount, and quote amounts on the server for every order.
-6. Replace the store with API clients under `shared/api/`, following
-   [docs/architecture.md](docs/architecture.md#8-proposed-backend-contract-not-implemented).
-
-Never place a database password or service-role key in frontend JavaScript.
-
-## Mock vs live
-
-| Area | Status | Notes |
-| --- | --- | --- |
-| Storefront browsing, cart, booking forms | Live (local) | Runs entirely in the browser |
-| Staff role gates | UX only | Enforced in UI and `store.js`, not security |
-| Staff sessions | Mock | `localStorage`, no password hashing |
-| Ticket, quote, stock, catalog, staff edits | Live (local) | Persist in this browser and feed the audit log |
-| Payments | Mock | No gateway, no card data leaves the page |
-| Photo upload | Mock | Catalog images are bundled files in `shared/assets` |
-| Supabase connector | Inactive | Legacy scripts remain; no project is configured |
-| Backend API / database | Not included | Endpoint conventions are documented for a later build |
-
-Client-side authorization is never sufficient for production. Before going live, add
-server-side sessions or JWT roles, bcrypt password hashing, server-validated prices and
-stock, and secret management.
+Client-side checks are never enough for a production shop. A real build needs server-side
+sessions, password hashing, server-validated prices and stock, and secrets kept off the
+browser. Never place a database password or service-role key in frontend JavaScript.
 
 ## Design system
 
-- Red: `#E60000` primary, `#C80000` hover/dark
-- Black: `#111111`, `#1A1A1A`
-- Neutrals: `#f7f7f5` page, `#e2e2df` lines, `#666662` muted text
-- White surfaces with square corners, condensed headings, mono labels
-- Status tones: amber (pending), blue (confirmed/in service), green (ready), gray
-  (completed), red (cancelled)
+- Red `#cc0000` accent, ink `#171717`, lines `#e2e2df`, dark `#0d0d0d`
+- Barlow Condensed display headings, Outfit body text, JetBrains Mono labels
+- White surfaces, square corners, condensed uppercase headings
+- Status tones: amber (pending), blue (in service), green (ready), gray (picked up)
 
-## Documentation
-
-- [docs/architecture.md](docs/architecture.md) — directory map, migration table, portal
-  routes, data model, and proposed API naming conventions.
-- [docs/legacy/supabase/SETUP.md](docs/legacy/supabase/SETUP.md) — the earlier optional
-  Supabase configuration. Not required by this build.
-
-## Source limitations
-
-`customer-ui/src/js/app.js` is the supplied **compiled** React bundle, not original JSX.
-Component-level changes there are made by editing the compiled calls (the manager login
-view and portal link were added this way). The manager and admin portals are new,
-dependency-free ES-module applications built against the shared layer, so they remain
-readable and editable without a build step.
-
-<<<<<<< HEAD
 Sample prices and stock are illustrative. Confirm fitment, pricing, and tax rules before
 any real use.
-=======
-This remains the supplied offline demo. Accounts and orders stay in this browser. Payment and external sign-in features require a connected backend to become real services. Extracting the files does not add a backend.
-
-## Expanded demo catalog
-
-20 services and 36 parts. Additional listings reuse matching local catalog photos as illustrative pictures. Prices and stock are sample values; confirm fitment and actual pricing before real use.
-
-## Back navigation
-
-Catalog Back buttons and the kiosk logo return guests to home and signed-in customers to their account. Cart Back returns to its catalog. Service details Back returns to the cart; payment Back returns to details. Parts checkout Back returns to the parts cart.
->>>>>>> origin/main
->>>>>>> 34971eae263dafa8fed6553c7718dba9f9d89e38
